@@ -1,27 +1,57 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
+  <ion-split-pane (click)="GetUser()"  contentId="main-content">
+    <ion-menu  contentId="main-content" type="overlay">
+      
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
+          <ion-list-header><ion-label color="light">Welcome <span *ngIf="isAdmin" class="admin"> ADMIN </span></ion-label></ion-list-header>
+          
+          <ion-note color="light">{{currentUser?.email}}</ion-note>
+          <a (click)="LogOut()">  Logout</a>
 
+          <div *ngIf="isAdmin" class="admin_zone">
+            <ion-list-header><ion-label color="danger ">Admin settings</ion-label></ion-list-header>
+            <ion-item routerDirection="root" [routerLink]="['admin/48d148c0-d41a-4f07-8134-178bea682c7b']" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+              <ion-label color="light ">Add products</ion-label>
+              </ion-item>
+
+              <ion-item routerDirection="root" [routerLink]="['admin/42b06665-c6a1-4e81-bcdf-133ddf58c370']" lines="none" detail="false" routerLinkActive="selected">
+                <ion-icon slot="start" name="person-add-outline"></ion-icon>
+                <ion-label color="light ">Grant permissions to users</ion-label>
+                </ion-item>
+
+          </div>
+
+          <ion-list-header><ion-label color="light ">Navigate</ion-label></ion-list-header>
+          <ion-item routerDirection="root" [routerLink]="['products']" lines="none" detail="false" routerLinkActive="selected">
+            <ion-icon slot="start" name="laptop-outline"></ion-icon>
+            <ion-label color="light ">Products</ion-label>
+            </ion-item>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
-        </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
+          <ion-list-header><ion-label color="light ">Producers</ion-label></ion-list-header>
+          <ion-menu-toggle auto-hide="false" *ngFor="let producer of producers">
+            <ion-item routerDirection="root" [routerLink]="['/products/producer/'+producer]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" name="business-outline"></ion-icon>
+              <ion-label>{{producer}}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
 
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
+          <ion-list-header><ion-label color="light ">Categories</ion-label></ion-list-header>
+          <ion-menu-toggle auto-hide="false" *ngFor="let category of categories">
+            <ion-item routerDirection="root" [routerLink]="['products/category/' + category]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" name="desktop-outline"></ion-icon>
+              <ion-label>{{category}}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
         </ion-list>
+        
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

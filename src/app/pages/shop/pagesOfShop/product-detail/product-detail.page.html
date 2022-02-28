@@ -1,0 +1,111 @@
+<ion-header >
+  <div class="ion-no-padding" >
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+      <h2 color="light" style="width:100%; text-align:center;">{{product?.title}}</h2>
+      <ion-back-button color="secondary" slot="end" style="margin-right: 2%;" defaultHref="products"></ion-back-button>
+    </ion-buttons>
+  </div>
+  
+  </ion-header>
+
+<ion-content class="background" [fullscreen]="true">
+
+  <div *ngIf="loading" class="spinner">
+    <ion-spinner color="secondary" name="crescent"></ion-spinner> 
+   </div>
+
+   <div *ngIf="error" class="error">
+     <h1>Failed to load product</h1>
+   </div>
+<div *ngIf="error==false">
+<div class="main-prd">
+  <div class="img-prd"><ion-img class="prd-img" src="{{product?.image}}"></ion-img>
+  </div>
+
+
+<div class="tags-prd">
+  <div class="tag-prd"> <ion-badge> {{product?.producer}}</ion-badge> </div>
+  <div class="tag-prd1"> <ion-badge>{{product?.category}}</ion-badge>  </div>
+  <div class="tag-prd2"> <ion-badge>€ {{product?.price }}</ion-badge>  </div>
+  <ion-badge color="warning"><ion-icon name="star-outline"></ion-icon><span>{{rank | number:'1.0-1'}}</span></ion-badge>
+  
+</div>
+
+<div class="dex-prd">
+  <p>{{product?.description}}</p>
+  
+</div>
+
+<div class="tags-btn">
+  <div class="tag-btn1"> <ion-button color="danger"><ion-icon name="heart-outline"></ion-icon></ion-button></div>
+  <div class="tag-btn2"> <ion-button color="warning"><ion-icon name="cart-outline"></ion-icon></ion-button>  </div>
+  <div class="tag-btn3"> <ion-button (click) = "comment=!comment" color="secondary"><ion-icon name="clipboard-outline"></ion-icon></ion-button>  </div>
+</div>
+</div>
+
+<div class="comment" *ngIf="comment" >
+  <ion-item class="add_comment">
+    <ion-label position="stacked">Add a review</ion-label>
+    <ion-input [(ngModel)]="currentValutation.nickname" placeholder="Nickname"></ion-input>
+    <ion-textarea [(ngModel)]="currentValutation.comment"placeholder="Review"></ion-textarea>
+
+    <div class="star" *ngIf="currentValutation.star==0">
+      <ion-button (click)="currentValutation.star=1"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=2"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=3"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=4"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=5"><ion-icon name="star-outline"></ion-icon></ion-button>
+    </div>
+    <div class="star" *ngIf="currentValutation.star==1">
+      <ion-button color="warning" (click)="currentValutation.star=1"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=2"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=3"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=4"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=5"><ion-icon name="star-outline"></ion-icon></ion-button>
+    </div>
+    <div class="star" *ngIf="currentValutation.star==2">
+      <ion-button color="warning" (click)="currentValutation.star=1"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button color="warning"(click)="currentValutation.star=2"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=3"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=4"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=5"><ion-icon name="star-outline"></ion-icon></ion-button>
+    </div>
+    <div class="star" *ngIf="currentValutation.star==3">
+      <ion-button color="warning" (click)="currentValutation.star=1"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button color="warning"(click)="currentValutation.star=2"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button color="warning"(click)="currentValutation.star=3"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=4"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=5"><ion-icon name="star-outline"></ion-icon></ion-button>
+    </div>
+    <div class="star" *ngIf="currentValutation.star==4">
+      <ion-button color="warning" (click)="currentValutation.star=1"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button color="warning"(click)="currentValutation.star=2"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button color="warning"(click)="currentValutation.star=3"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button color="warning"(click)="currentValutation.star=4"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button (click)="currentValutation.star=5"><ion-icon name="star-outline"></ion-icon></ion-button>
+    </div>
+    <div class="star" *ngIf="currentValutation.star==5">
+      <ion-button color="warning" (click)="currentValutation.star=1"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button color="warning"(click)="currentValutation.star=2"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button color="warning"(click)="currentValutation.star=3"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button color="warning"(click)="currentValutation.star=4"><ion-icon name="star-outline"></ion-icon></ion-button>
+      <ion-button color="warning"(click)="currentValutation.star=5"><ion-icon name="star-outline"></ion-icon></ion-button>
+    </div>   
+  </ion-item>
+  <div class="tag-btn3"> <ion-button [disabled]='currentValutation.comment=="" || currentValutation.star==0 '  (click) = "comment=false" (click) = Valutate() (ionRefresh)=Valutate(); color="success"><ion-icon name="send-outline"></ion-icon></ion-button>  </div>
+</div>
+
+
+<div class="main-prd" *ngFor="let valutation of product?.valutations">
+  <div class="username"><h6><ion-icon name="person-circle-outline"></ion-icon>{{valutation.nickname}}</h6></div>
+  <div class="review">
+  <p>{{valutation.comment}}</p>
+  <ion-badge class="valutation" color="warning"><ion-icon name="star-outline"></ion-icon><span>{{valutation.star}}</span></ion-badge>
+  </div>
+  
+  
+</div>
+</div>
+
+</ion-content>

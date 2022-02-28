@@ -1,0 +1,43 @@
+.image {
+    width : 90%;
+    padding: 10%;
+}
+
+.filter {
+    width : 100%;
+}
+
+
+
+.pad {
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.logo {
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.filter {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.136);
+}
+
+.button2 {
+    font-size: 70%;
+}
+
+.modal {
+    --max-height: 70%;
+    --width : 90%;
+    --border-radius	: 20px;
+    
+    
+}
+
+
+
