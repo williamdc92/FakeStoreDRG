@@ -8,12 +8,12 @@ import { ShopService } from 'src/app/service/Shop-service/shop-service.service';
 })
 export class FavoritesPage implements OnInit {
 
-  constructor(public datab : ShopService) { }
+  constructor(public datab: ShopService) { }
 
   favorites = [];
 
   ngOnInit() {
-    // this.favorites = this.datab.favorites;
+
   }
 
 }

@@ -9,7 +9,7 @@ export class EditDatabasePage implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit = () =>  {
   }
 
 }

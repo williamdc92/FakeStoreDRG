@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -27,7 +27,7 @@ export class UserServiceService {
   constructor(private http: HttpClient) { }
 
 
-GetUserByID = (id: string) => {return this.http.get<User>("https://servershopwilliam.herokuapp.com/users/"+id,{}).toPromise()};
+  GetUserByID = (id: string) => { return this.http.get<User>("https://servershopwilliam.herokuapp.com/users/" + id, {}).toPromise() };
 
 };
 

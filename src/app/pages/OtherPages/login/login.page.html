@@ -1,57 +1,57 @@
 <ion-content class="background" [fullscreen]="true">
-    <div *ngIf="activatelogin==false" class="authentication">
-      <img src="../../../../assets/logo.png" />
-        <h1>Registration</h1>
-       <form [formGroup]="SignupForm" (ngSubmit)="SignUp()" novalidate>
-         <ion-item lines="full">
-           <ion-label position="floating">Name</ion-label>
-           <ion-input formControlName="name" type="text" required></ion-input>
-         </ion-item>
-         <ion-item lines="full">
-           <ion-label position="floating">Surname</ion-label>
-           <ion-input formControlName="surname" type="text" required></ion-input>
-         </ion-item>
-         <ion-item lines="full">
-           <ion-label position="floating">Email</ion-label>
-           <ion-input formControlName="email" type="email" required></ion-input>
-         </ion-item>
-         <ion-item lines="full">
-           <ion-label position="floating">Password</ion-label>
-           <ion-input formControlName="password" type="password" required></ion-input>
-         </ion-item>
-         <ion-row>
-           <ion-col>
-             <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
-           </ion-col>
-         </ion-row>
-       </form>
-     
-     
-       <p>Already registered? Please <a (click)="activatelogin=true">Log In</a></p>
-     
-     </div> 
-     
-     <div *ngIf="activatelogin==true" class="authentication">
-      <img src="../../../../assets/logo.png" />
-       <h1>Login</h1>
-       <form [formGroup]="LoginForm" (ngSubmit)="Login()" novalidate>
-      
-        
-         <ion-item lines="full">
-           <ion-label position="floating">Email</ion-label>
-           <ion-input formControlName="email" type="email" required></ion-input>
-         </ion-item>
-         <ion-item lines="full">
-           <ion-label position="floating">Password</ion-label>
-           <ion-input formControlName="password" type="password" required></ion-input>
-         </ion-item>
-         
-         <ion-row>
-           <ion-col>
-             <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
-           </ion-col>
-         </ion-row>
-       </form>
-       <p>Not registered yet? Please <a (click)="activatelogin=false">Sign Up</a></p>
-     </div>
+  <div *ngIf="activatelogin==false" class="authentication">
+    <img src="../../../../assets/logo.png" />
+    <h1>Registration</h1>
+    <form [formGroup]="SignupForm" (ngSubmit)="SignUp()" novalidate>
+      <ion-item lines="full">
+        <ion-label position="floating">Name</ion-label>
+        <ion-input formControlName="name" type="text" required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Surname</ion-label>
+        <ion-input formControlName="surname" type="text" required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email" required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input formControlName="password" type="password" required></ion-input>
+      </ion-item>
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+
+
+    <p>Already registered? Please <a (click)="activatelogin=true">Log In</a></p>
+
+  </div>
+
+  <div *ngIf="activatelogin==true" class="authentication">
+    <img src="../../../../assets/logo.png" />
+    <h1>Login</h1>
+    <form [formGroup]="LoginForm" (ngSubmit)="Login()" novalidate>
+
+
+      <ion-item lines="full">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email" required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input formControlName="password" type="password" required></ion-input>
+      </ion-item>
+
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+    <p>Not registered yet? Please <a (click)="activatelogin=false">Sign Up</a></p>
+  </div>
 </ion-content>

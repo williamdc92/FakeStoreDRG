@@ -10,15 +10,15 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./filter.page.scss'],
 })
 export class FilterPage implements OnInit {
-
+  
   constructor(private route: ActivatedRoute, public service: ShopService, public userService: UserServiceService, private storage: Storage) { }
-
+  
   value: string;
   sub: any;
   database: RootObject[];
   loading = true;
   error = false;
-
+  
   async ngOnInit() {
     await this.storage.create();
     if (await this.storage.get('logged') === true) this.userService.activeSessions = true;
@@ -26,7 +26,7 @@ export class FilterPage implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       this.value = params['producer'];
     });
-
+    
     try {
       this.database = await this.service.GetFilterByProducer(this.value);
       this.loading = false;
@@ -35,12 +35,12 @@ export class FilterPage implements OnInit {
       console.log("Failed to load database")
       this.loading = false;
       this.error = true;
-
+      
     }
-
-
-
-
+    
+    
+    
+    
   }
-
+  
 }

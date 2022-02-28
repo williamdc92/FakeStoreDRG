@@ -38,12 +38,12 @@ export class LoginPage implements OnInit {
 
 
 
-  async ngOnInit() {
+  async ngOnInit  () {
     await this.storage.create();
     this.Check();
   }
 
-  async SignUp() {
+  SignUp = async () => {
     const Sform: SignUpFormInterface = this.SignupForm.value;
     try {
       const resultS: Response = await this.service.SignUp(Sform)
@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
   }
 
 
-  async Login() {
+  Login = async () => {
     const Lform: LoginFormInterface = this.LoginForm.value;
     try {
       const resultL: SuccessfulLogin = await this.service.LogIn(Lform) //SHOULD MAKE CONTROL BECAUSE HEROKU DELETE DATABASE EVERY DAY
@@ -92,12 +92,12 @@ export class LoginPage implements OnInit {
     }
   }
 
-  async SetValue(value: boolean) {
+  SetValue = async (value: boolean) => {
     await this.storage.set('logged', value);
     this.ngOnInit();
   }
 
-  async Check() {
+  Check = async () => {
     if (await this.storage.get('logged') === true) {
       await this.router.navigate(['products'])
       console.log("logged");

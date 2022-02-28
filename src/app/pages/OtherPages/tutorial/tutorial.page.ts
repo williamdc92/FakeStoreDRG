@@ -14,18 +14,18 @@ export class TutorialPage implements OnInit {
 
   constructor(private router: Router, private storage: Storage) { }
 
-  async ngOnInit() {
+  async ngOnInit () {
     await this.storage.create();
     this.Check();
   }
 
-  async SetValue(value: boolean) {
+  SetValue = async (value: boolean) => {
     await this.storage.set('viewed', value);
     this.ngOnInit();
   }
 
 
-  async Check() {
+  Check = async () => {
     if (await this.storage.get('viewed') == true && await this.storage.get('logged') == false) {
       await this.router.navigate(['login'])
       console.log("viewed");

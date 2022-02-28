@@ -1,42 +1,44 @@
 <ion-header *ngIf="this.userService.activeSessions==true">
-  <div class="ion-no-padding" >
-    <ion-buttons  slot="start">
-      <ion-menu-button color="secondary" ></ion-menu-button>
+  <div class="ion-no-padding">
+    <ion-buttons slot="start">
+      <ion-menu-button color="secondary"></ion-menu-button>
       <h2 color="light" style="width:100%; text-align:center;">{{value}}</h2>
       <ion-back-button color="secondary" slot="end" style="margin-right: 2%;" defaultHref="products"></ion-back-button>
     </ion-buttons>
   </div>
 
-  
-  </ion-header>
 
-  <ion-content *ngIf="this.userService.activeSessions==false" class="background" [fullscreen]="true">
-    <div class="error">
-      <h1>Please <a [routerLink]="['']">login</a></h1>
-    </div>
-  </ion-content>
+</ion-header>
+
+<ion-content *ngIf="this.userService.activeSessions==false" class="background" [fullscreen]="true">
+  <div class="error">
+    <h1>Please <a [routerLink]="['']">login</a></h1>
+  </div>
+</ion-content>
 
 <ion-content *ngIf="this.userService.activeSessions==true" class="background" [fullscreen]="true">
-  
+
   <div *ngIf="loading" class="spinner">
-    <ion-spinner color="secondary" name="crescent"></ion-spinner> 
-   </div>
-
-   <div *ngIf="error"class="error">
-     <h1>Failed to load database</h1>
-   </div>
-
-  <div  *ngFor="let product of database" class="my_card" routerDirection="root" [routerLink]="['/products/'+product.id]" lines="none" detail="false">
-    <div class="img">
-      <ion-img class="img_img" src="{{product.image}}"> </ion-img></div>
-      <div class="content"> 
-        <div class="title">{{product.title}}</div>
-        <div class="tags"> 
-    
-          <p class="price">€ {{product.price}} </p>
-          
-        </div> 
-      </div>
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
   </div>
-  
+
+  <div *ngIf="error" class="error">
+    <h1>Failed to load database</h1>
+  </div>
+
+  <div *ngFor="let product of database" class="my_card" routerDirection="root" [routerLink]="['/products/'+product.id]"
+    lines="none" detail="false">
+    <div class="img">
+      <ion-img class="img_img" src="{{product.image}}"> </ion-img>
+    </div>
+    <div class="content">
+      <div class="title">{{product.title}}</div>
+      <div class="tags">
+
+        <p class="price">€ {{product.price}} </p>
+
+      </div>
+    </div>
+  </div>
+
 </ion-content>

@@ -1,29 +1,31 @@
-<ion-header >
-  <div class="ion-no-padding" >
+<ion-header>
+  <div class="ion-no-padding">
     <ion-buttons slot="start">
-      <ion-menu-button color="secondary" ></ion-menu-button>
+      <ion-menu-button color="secondary"></ion-menu-button>
       <h2 color="light" style="width:100%; text-align:center;">Cart</h2>
       <ion-back-button color="secondary" slot="end" style="margin-right: 2%;" defaultHref="products"></ion-back-button>
     </ion-buttons>
   </div>
-  
-  </ion-header>
+
+</ion-header>
 
 <ion-content class="background" [fullscreen]="true">
-  
 
 
-  <div  *ngFor="let product of cart" class="my_card" routerDirection="root" [routerLink]="['/products/'+product.id]" lines="none" detail="false">
+
+  <div *ngFor="let product of cart" class="my_card" routerDirection="root" [routerLink]="['/products/'+product.id]"
+    lines="none" detail="false">
     <div class="img">
-      <ion-img class="img_img" src="{{product.image}}"> </ion-img></div>
-      <div class="content"> 
-        <div class="title">{{product.title}}</div>
-        <div class="tags"> 
-    
-          <p class="price">€ {{product.price}} </p>
-          
-        </div> 
+      <ion-img class="img_img" src="{{product.image}}"> </ion-img>
+    </div>
+    <div class="content">
+      <div class="title">{{product.title}}</div>
+      <div class="tags">
+
+        <p class="price">€ {{product.price}} </p>
+
       </div>
+    </div>
   </div>
-  
+
 </ion-content>

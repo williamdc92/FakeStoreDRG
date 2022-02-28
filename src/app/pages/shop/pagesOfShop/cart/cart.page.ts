@@ -12,7 +12,7 @@ export class CartPage implements OnInit {
   cart = [];
 
   ngOnInit() {
-    
+
   }
 
 }

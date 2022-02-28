@@ -13,37 +13,37 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-
+  
   database: RootObject[];
-
+  
   loading = true;
   error = false;
-
-
+  
+  
   constructor(public service: ShopService, public userService: UserServiceService, private storage: Storage) { }
-
+  
   async ngOnInit() {
     await this.storage.create();
-
+    
     if (await this.storage.get('logged') === true) this.userService.activeSessions = true;
     
     try {
       this.database = await this.service.GetDatabase();
       this.loading = false;
-
+      
     }
-
+    
     catch {
       console.log("Failed to load database")
       this.loading = false;
       this.error = true;
     }
-
-
+    
+    
   }
-
-
-
+  
+  
+  
 }
 
 

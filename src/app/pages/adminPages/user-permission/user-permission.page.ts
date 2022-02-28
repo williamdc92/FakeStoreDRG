@@ -9,7 +9,7 @@ export class UserPermissionPage implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit = () =>  {
   }
 
 }

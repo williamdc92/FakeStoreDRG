@@ -6,10 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./order-history.page.scss'],
 })
 export class OrderHistoryPage implements OnInit {
-
+  
   constructor() { }
-
+  
   ngOnInit() {
   }
-
+  
 }
