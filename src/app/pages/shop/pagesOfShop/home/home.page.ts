@@ -15,6 +15,7 @@ import { Storage } from '@ionic/storage-angular';
 export class HomePage implements OnInit {
   
   database: RootObject[];
+  searchValue:string;
   
   loading = true;
   error = false;
