@@ -12,7 +12,8 @@ import { Storage } from '@ionic/storage-angular';
 export class FilterPage implements OnInit {
   
   constructor(private route: ActivatedRoute, public service: ShopService, public userService: UserServiceService, private storage: Storage) { }
-  
+
+  searchValue:string;  
   value: string;
   sub: any;
   database: RootObject[];

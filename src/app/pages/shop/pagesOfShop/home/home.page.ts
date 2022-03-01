@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShopService, RootObject } from 'src/app/service/Shop-service/shop-service.service';
-import { UserServiceService, User } from 'src/app/service/UserService/user-service.service';
+import { UserServiceService } from 'src/app/service/UserService/user-service.service';
 import { Storage } from '@ionic/storage-angular';
 
 

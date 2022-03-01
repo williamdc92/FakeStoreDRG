@@ -18,6 +18,8 @@
 
 <ion-content *ngIf="this.userService.activeSessions==true" class="background" [fullscreen]="true">
 
+  <ion-searchbar class="searchbar" [(ngModel)]="searchValue" placeholder="Search" showCancelButton="focus" animated></ion-searchbar>
+
   <div *ngIf="loading" class="spinner">
     <ion-spinner color="secondary" name="crescent"></ion-spinner>
   </div>
@@ -26,7 +28,7 @@
     <h1>Failed to load database</h1>
   </div>
 
-  <div *ngFor="let product of database" class="my_card" routerDirection="root" [routerLink]="['/products/'+product.id]"
+  <div *ngFor="let product of database | filter:searchValue" class="my_card" routerDirection="root" [routerLink]="['/products/'+product.id]"
     lines="none" detail="false">
     <div class="img">
       <ion-img class="img_img" src="{{product.image}}"> </ion-img>

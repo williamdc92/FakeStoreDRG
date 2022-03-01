@@ -49,7 +49,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/adminPages/edit-database/edit-database.module').then(m => m.EditDatabasePageModule)
   },
   {
-    path: 'admin/42b06665-c6a1-4e81-bcdf-133ddf58c370',
+    path: 'admin/users/manage',
     loadChildren: () => import('./pages/adminPages/user-permission/user-permission.module').then(m => m.UserPermissionPageModule)
   }
 ];

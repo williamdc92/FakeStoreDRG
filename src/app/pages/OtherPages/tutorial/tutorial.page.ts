@@ -7,21 +7,21 @@ import { Storage } from '@ionic/storage-angular';
   templateUrl: './tutorial.page.html',
   styleUrls: ['./tutorial.page.scss'],
 })
-export class TutorialPage implements OnInit {
+export class TutorialPage{
 
 
 
 
   constructor(private router: Router, private storage: Storage) { }
 
-  async ngOnInit () {
+  async ionViewWillEnter () {
     await this.storage.create();
     this.Check();
   }
 
-  SetValue = async (value: boolean) => {
-    await this.storage.set('viewed', value);
-    this.ngOnInit();
+  SetValue = async () => {
+    await this.storage.set('viewed',true);
+    await this.router.navigate(['login'])
   }
 
 

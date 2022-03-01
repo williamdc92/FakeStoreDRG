@@ -4,6 +4,7 @@ import { RootObject, ShopService } from 'src/app/service/Shop-service/shop-servi
 import { Storage } from '@ionic/storage-angular';
 import { UserServiceService } from 'src/app/service/UserService/user-service.service';
 
+
 @Component({
   selector: 'app-filtercategory',
   templateUrl: './filtercategory.page.html',
@@ -18,6 +19,7 @@ export class FiltercategoryPage implements OnInit {
   database: RootObject[];
   loading = true;
   error = false;
+  searchValue:string; 
   
   async ngOnInit() {
     await this.storage.create();

@@ -1,20 +1,46 @@
-<ion-header >
-  <div class="ion-no-padding" >
+<ion-header *ngIf="this.userService.activeSessions==true">
+  <div class="logo-main">
     <ion-buttons slot="start">
-      <ion-menu-button color="secondary" ></ion-menu-button>
-      <h2 color="light" style="width:100%; text-align:center;">Order History</h2>
-      <ion-back-button color="secondary" slot="end" style="margin-right: 2%;" defaultHref="products"></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+      <div>
+        <ion-img src="../../../assets/logo.png"></ion-img>
+      </div>
     </ion-buttons>
   </div>
+</ion-header>
 
-  
-  </ion-header>
-
-<ion-content class="background" [fullscreen]="true">
-  <div class="spinner">
-   <ion-spinner color="secondary" name="crescent"></ion-spinner> 
+<ion-content *ngIf="this.userService.activeSessions==false" class="background" [fullscreen]="true">
+  <div class="error">
+    <h1>Please <a [routerLink]="['']">login as Administratr</a></h1>
   </div>
-  
+</ion-content>
 
-  
+
+<ion-content *ngIf="this.userService.activeSessions==true" class="background" [fullscreen]="true">
+
+  <div *ngIf="loading" class="spinner">
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <h1>Failed to load database</h1>
+  </div>
+
+  <div *ngIf="!error && !loading">
+    <div class="permission-main">
+      <div class="permissions" *ngFor="let user of users">
+        <div class="permissions-email">
+          {{user.email | slice:0:22}}
+        </div>
+        <div class="permissions-buttons">
+          <ion-button (click)="ChangeAdminStatus(user.id)" [disabled]="user.id==id" color="primary"
+            *ngIf="user.isAdmin">Admin: {{user.isAdmin}} </ion-button>
+          <ion-button (click)="ChangeAdminStatus(user.id)" color="danger" *ngIf="!user.isAdmin"> Admin: {{user.isAdmin}}
+          </ion-button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
 </ion-content>

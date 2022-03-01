@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserServiceService,User } from 'src/app/service/UserService/user-service.service';
 
 @Component({
   selector: 'app-edit-database',
@@ -7,9 +8,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditDatabasePage implements OnInit {
 
-  constructor() { }
+  users: User[];
+  error:boolean = false;
+  loading:boolean = true;
+  searchValue:string;
 
-  ngOnInit = () =>  {
+  constructor(public userService: UserServiceService) { }
+
+  async ngOnInit ()  {
+    try {
+      this.users = await this.userService.GetUsers();
+      console.log(this.users);
+      this.loading = false;
+    }
+
+    catch (err) {
+      console.error(err);
+      this.loading = false;
+      this.error=true;
+    }
+
   }
 
 }

@@ -28,6 +28,8 @@ export class UserServiceService {
 
 
   GetUserByID = (id: string) => { return this.http.get<User>("https://servershopwilliam.herokuapp.com/users/" + id, {}).toPromise() };
+  GetUsers = () =>  { return this.http.get<User[]>("https://servershopwilliam.herokuapp.com/users/", {}).toPromise()};
+  ChangeAdminStatus = (id: string) => { return this.http.put<User>("https://servershopwilliam.herokuapp.com/users/" + id +"/isadmin", {}).toPromise()}
 
 };
 

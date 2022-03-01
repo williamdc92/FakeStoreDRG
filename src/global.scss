@@ -107,7 +107,7 @@ ion-content.background {
 }
 
 .searchbar-input {
-  background-color:rgba(255, 255, 255, 0.639) !important;
+  background-color: rgba(255, 255, 255, 0.639) !important;
   border-radius: 10px;
 }
 
@@ -348,6 +348,37 @@ ion-title {
   color: rgba(255, 255, 255, 0.639);
 }
 
+.permissions {
+  background-color: rgba(255, 255, 255, 0.639);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.permission-main {
+  padding: 6%;
+
+}
+
+.permissions-email {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 60%;
+  font-size: 0.5 rem
+}
+
+.permissions-buttons {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: column;
+  width: 40%;
+}
 
 /* ----------Tablet----------*/
 
