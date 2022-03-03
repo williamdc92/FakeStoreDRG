@@ -57,6 +57,18 @@ ion-content.background {
 
 }
 
+.cart_section {
+  margin-bottom: 30%;
+}
+
+.make_order {
+  margin-left: 3%;
+}
+
+.make_order_bold {
+  font-weight: bold;
+}
+
 .img {
   width: 30%;
   border-style: solid;
@@ -378,6 +390,19 @@ ion-title {
   align-items: center;
   flex-direction: column;
   width: 40%;
+}
+
+.total {
+  
+  background-color: rgba(255, 255, 255, 0.639);
+  border-radius: 10px;
+  position: fixed;
+  left: 50%;
+  bottom: 10px;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+ 
+
 }
 
 /* ----------Tablet----------*/

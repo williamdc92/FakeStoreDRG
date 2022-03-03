@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShopService, RootObject } from 'src/app/service/Shop-service/shop-service.service';
-import { UserServiceService } from 'src/app/service/UserService/user-service.service';
+import { UserService } from 'src/app/service/UserService/user-service';
 import { Storage } from '@ionic/storage-angular';
 
 
@@ -21,7 +21,7 @@ export class HomePage implements OnInit {
   error = false;
   
   
-  constructor(public service: ShopService, public userService: UserServiceService, private storage: Storage) { }
+  constructor(public service: ShopService, public userService: UserService, private storage: Storage) { }
   
   async ngOnInit() {
     await this.storage.create();

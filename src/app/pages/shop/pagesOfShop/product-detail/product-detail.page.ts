@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RootObject, ShopService, Valutation } from 'src/app/service/Shop-service/shop-service.service';
 import { ToastController } from '@ionic/angular';
+import { UserService, ProductInCart } from 'src/app/service/UserService/user-service';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-product-detail',
@@ -10,7 +12,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class ProductDetailPage implements OnInit {
   
-  constructor(private route: ActivatedRoute, public service: ShopService, public toastController: ToastController) { }
+  constructor(private route: ActivatedRoute, public service: ShopService, public userService: UserService, public toastController: ToastController, private storage: Storage) { }
   
   id: string;
   sub: any;
@@ -32,6 +34,7 @@ export class ProductDetailPage implements OnInit {
   
   
   async ngOnInit() {
+    await this.storage.create();
     this.sub = this.route.params.subscribe(params => { this.id = params['id']; });
     try {
       this.product = await this.service.GetFilterById(this.id);
@@ -86,6 +89,30 @@ export class ProductDetailPage implements OnInit {
     }
     
     
+    
+  }
+
+
+  PushInCart = async () => {
+    const {valutations, ...filtered} = this.product;
+    const prod:ProductInCart = filtered;
+    try {
+     await this.userService.AddProductInCart((await this.storage.get('id')),prod) 
+     const toast = await this.toastController.create({
+      message: 'Added in cart!',
+      duration: 2000
+    });
+    toast.present();
+    }
+
+    catch (err) {
+      const toast = await this.toastController.create({
+        message: `Sorry, can't add item in cart`,
+        duration: 2000
+      });
+      toast.present();
+      console.log(err);
+    }
     
   }
   

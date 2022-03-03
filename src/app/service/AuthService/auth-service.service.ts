@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment,environment_config } from 'src/environments/environment';
 
 export interface SignUpFormInterface {
 
@@ -23,16 +24,16 @@ export interface SuccessfulLogin {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: `root`
 })
 export class AuthServiceService {
 
   constructor(private http: HttpClient) { this.SignUp }
 
 
-  SignUp = (form: SignUpFormInterface) => { return this.http.post<Response>('https://servershopwilliam.herokuapp.com/register', form).toPromise() };
+  SignUp = (form: SignUpFormInterface) => { return this.http.post<Response>(`${environment.host}/register`, form, environment_config).toPromise() };
 
-  LogIn = (form: LoginFormInterface) => { return this.http.post<SuccessfulLogin>('https://servershopwilliam.herokuapp.com/login', form).toPromise() };
+  LogIn = (form: LoginFormInterface) => { return this.http.post<SuccessfulLogin>(`${environment.host}/login`, form, environment_config).toPromise() };
 
 }
 

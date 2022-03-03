@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserServiceService, User } from 'src/app/service/UserService/user-service.service';
+import { UserService, User } from 'src/app/service/UserService/user-service';
 import { Storage } from '@ionic/storage-angular';
 
 @Component({
@@ -14,7 +14,7 @@ export class UserPermissionPage {
   id: string = "";
   admin = false;
 
-  constructor(public userService: UserServiceService, private storage: Storage) {
+  constructor(public userService: UserService, private storage: Storage) {
 
   }
 

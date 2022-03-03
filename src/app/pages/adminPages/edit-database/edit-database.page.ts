@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserServiceService,User } from 'src/app/service/UserService/user-service.service';
+import { UserService,User } from 'src/app/service/UserService/user-service';
 
 @Component({
   selector: 'app-edit-database',
@@ -13,7 +13,7 @@ export class EditDatabasePage implements OnInit {
   loading:boolean = true;
   searchValue:string;
 
-  constructor(public userService: UserServiceService) { }
+  constructor(public userService: UserService) { }
 
   async ngOnInit ()  {
     try {

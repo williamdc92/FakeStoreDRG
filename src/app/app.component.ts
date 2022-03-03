@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RootObject, ShopService } from 'src/app/service/Shop-service/shop-service.service';
 import { Storage } from '@ionic/storage-angular';
-import { UserServiceService, User } from './service/UserService/user-service.service';
+import { UserService, User,Me } from './service/UserService/user-service';
+import { ToastController } from '@ionic/angular';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -21,13 +23,13 @@ export class AppComponent {
 
 
 
-  constructor(public router: Router, public service: ShopService, private storage: Storage, private userService: UserServiceService) {
+  constructor(public router: Router, public service: ShopService, private storage: Storage, private userService: UserService, public toastController: ToastController) {
   }
 
   public producers = []
   public categories = [];
   database: RootObject[];
-  currentUser: User;
+  currentUser: Me;
   isAdmin: boolean;
 
 
@@ -44,16 +46,25 @@ export class AppComponent {
 
   GetUser = async () => {
 
-    try {
-      if (await this.storage.get('logged') === true) {
-        this.currentUser = await this.userService.GetUserByID(await this.storage.get('id'));
+  if (await this.storage.get('logged') === true) {
+    try 
+       {
+        this.currentUser = await this.userService.GetMe(await this.storage.get('token'));
         this.isAdmin = this.currentUser?.isAdmin;
       }
 
-    }
+    
     catch (err) {
       console.log(err)
+      console.log("section expired")
+      const toast = await this.toastController.create({
+        message: `Section expired, please log in again`,
+        duration: 2000
+      });
+      toast.present();
+      this.LogOut();
     }
+  }
 
 
   }
@@ -63,7 +74,7 @@ export class AppComponent {
     await this.storage.set('viewed', false);
     await this.storage.set('email', "");
     await this.storage.set('token', "");
-    await this.storage.set('id', undefined);
+    await this.storage.set('id', "");
 
     this.userService.activeSessions = false;
     await this.router.navigate(['tutorial'])

@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage-angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { AuthServiceService, SignUpFormInterface, LoginFormInterface, SuccessfulLogin } from '../../../service/AuthService/auth-service.service';
 import { ToastController } from '@ionic/angular';
-import { UserServiceService } from 'src/app/service/UserService/user-service.service';
+import { UserService} from 'src/app/service/UserService/user-service';
 
 
 
@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
 
 
 
-  constructor(private router: Router, private storage: Storage, public formBuilder: FormBuilder, public service: AuthServiceService, public toastController: ToastController, public userService: UserServiceService) {
+  constructor(private router: Router, private storage: Storage, public formBuilder: FormBuilder, public service: AuthServiceService, public toastController: ToastController, public userService: UserService) {
     this.SignupForm = this.formBuilder.group({
       name: [, [Validators.required, Validators.minLength(2)]],
       surname: ['', [Validators.required, Validators.minLength(2)]],
