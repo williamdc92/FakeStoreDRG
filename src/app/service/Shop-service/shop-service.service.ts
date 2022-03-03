@@ -36,7 +36,15 @@ export class ShopService {
 
   GetFilterById = (id: string) => { return this.http.get<RootObject>(`${environment.host}/products/${id}`, {}).toPromise()};
 
-  PostComment = (id: string, obj: Valutation) => { return this.http.post<Valutation>(`${environment.host}/products/${id}`, obj, {}).toPromise()}; //REQUIRE USER TOKEN
+  PostComment = (id: string, obj: Valutation, token:string) => {
+    
+    const option = {
+      headers: {
+          'authorization': `${token}`
+      }
+    }
+
+    return this.http.post<Valutation>(`${environment.host}/products/${id}`, obj, option).toPromise()}; //REQUIRE USER TOKEN
   
   
 }

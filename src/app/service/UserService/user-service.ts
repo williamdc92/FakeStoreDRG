@@ -61,14 +61,25 @@ export class UserService {
           'authorization': `${token}`
       }
     }
+
   return this.http.get<Me>(`${environment.host}/me`,option).toPromise() 
+
 };
 
   GetUserByID = (id: string) => { return this.http.get<User>(`${environment.host}/users/${id}`, {}).toPromise() };
   GetUsers = () =>  { return this.http.get<User[]>(`${environment.host}/users/`, {}).toPromise()};
   ChangeAdminStatus = (id: string) => { return this.http.put<User>(`${environment.host}/users/${id}/isadmin`,{},{}).toPromise()}; //REQ USER TOKEN (CHECK ADMIN)
   GetCart = (id: string) => { return this.http.get<CartElement[]>(`${environment.host}/users/${id}/cart`, {}).toPromise() };
-  AddProductInCart = (id:string, product:ProductInCart) => {return this.http.post<CartElement>(`${environment.host}/users/${id}/cart`,product,{}).toPromise()} //REQ USER TOKEN
+
+  
+  AddProductInCart = (id:string, product:ProductInCart, token) => {
+    const option = {
+      headers: {
+          'authorization': `${token}`
+      }
+    }
+    
+    return this.http.post<CartElement>(`${environment.host}/users/${id}/cart`,product,option).toPromise()} //REQ USER TOKEN
 
 };
 

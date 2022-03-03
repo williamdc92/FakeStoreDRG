@@ -57,7 +57,7 @@ export class ProductDetailPage implements OnInit {
     let response: Valutation;
     
     try {
-      response = await this.service.PostComment(this.id, this.currentValutation);
+      response = await this.service.PostComment(this.id, this.currentValutation, (await this.storage.get('token')));
       console.log(response);
       
       
@@ -97,7 +97,7 @@ export class ProductDetailPage implements OnInit {
     const {valutations, ...filtered} = this.product;
     const prod:ProductInCart = filtered;
     try {
-     await this.userService.AddProductInCart((await this.storage.get('id')),prod) 
+     await this.userService.AddProductInCart((await this.storage.get('id')),prod,(await this.storage.get('token')))
      const toast = await this.toastController.create({
       message: 'Added in cart!',
       duration: 2000
