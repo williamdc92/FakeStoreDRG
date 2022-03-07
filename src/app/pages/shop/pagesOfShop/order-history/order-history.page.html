@@ -1,20 +1,49 @@
-<ion-header>
-  <div class="ion-no-padding">
+<ion-header *ngIf="this.userService.activeSessions==true">
+  <div class="logo-main">
     <ion-buttons slot="start">
-      <ion-menu-button color="secondary"></ion-menu-button>
-      <h2 color="light" style="width:100%; text-align:center;">Order History</h2>
+      <ion-menu-button></ion-menu-button>
+      <div>
+        <ion-img src="../../../assets/logo.png"></ion-img>
+      </div>
       <ion-back-button color="secondary" slot="end" style="margin-right: 2%;" defaultHref="products"></ion-back-button>
     </ion-buttons>
   </div>
-
-
 </ion-header>
 
-<ion-content class="background" [fullscreen]="true">
-  <div class="spinner">
+
+<ion-content *ngIf="this.userService.activeSessions==false" class="background" [fullscreen]="true">
+  <div class="error">
+    <h1>Please <a [routerLink]="['']">login</a></h1>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="this.userService.activeSessions==true" class="background" [fullscreen]="true">
+
+  
+
+
+  <div *ngIf="loading" class="spinner">
     <ion-spinner color="secondary" name="crescent"></ion-spinner>
   </div>
 
+  <div *ngIf="error" class="error">
+    <h1>No order yet</h1>
+  </div>
 
+  <div *ngFor = "let order of orders" class="orders">
+ 
+    <div  routerDirection="root" [routerLink]="[''+order.id]" class="order" >
+      <p>Order make in : {{order.date | date}} Total : € {{order.total}} <ion-icon name="caret-forward-outline"></ion-icon> </p>
+    </div>
+
+</div>
+  
+  
+
+  
+
+
+  
+  
 
 </ion-content>

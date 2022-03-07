@@ -1,6 +1,7 @@
 <ion-app>
-  <ion-split-pane (click)="GetUser()" contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
+  <ion-split-pane (click)="GetUser()" (click)="GetCart()" contentId="main-content">
+
+    <ion-menu side="start" menuId="mainMenu" contentId="main-content" type="overlay">
 
       <ion-content>
         <ion-list id="inbox-list">
@@ -21,8 +22,8 @@
               <ion-label color="light ">Add products</ion-label>
             </ion-item>
 
-            <ion-item routerDirection="root" [routerLink]="['admin/users/manage']" lines="none"
-              detail="false" routerLinkActive="selected">
+            <ion-item routerDirection="root" [routerLink]="['admin/users/manage']" lines="none" detail="false"
+              routerLinkActive="selected">
               <ion-icon slot="start" name="person-add-outline"></ion-icon>
               <ion-label color="light ">Grant permissions to users</ion-label>
             </ion-item>
@@ -70,13 +71,66 @@
 
       </ion-content>
     </ion-menu>
-    
+
+    <ion-menu side="end" menuId="cartMenu" contentId="main-content">
+      <ion-list id="inbox-list">
+        <ion-list-header>
+          <ion-label class="ion-text-center" color="light">Cart </ion-label>
+
+        </ion-list-header>
+      </ion-list>
+      <ion-content>
+        <div class="error" *ngIf="isEmpty">
+          <h1>Cart is empty</h1>
+        </div>
+        <div class="cart_section">
+          <div *ngFor="let product of cart" class="my_card">
+            <div class="img" (click)="openEnd()" routerDirection="root"
+            [routerLink]="['/products/'+product.product.id]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-img class="img_img" src="{{product.product.image}}"> </ion-img>
+            </div>
+            <div class="content">
+              <div class="title" (click)="openEnd()" routerDirection="root"
+              [routerLink]="['/products/'+product.product.id]" lines="none" detail="false" routerLinkActive="selected">{{product.product.title}}</div>
+              <div class="tags">
+                <p class="price" (click)="openEnd()" routerDirection="root"
+                [routerLink]="['/products/'+product.product.id]" lines="none" detail="false" routerLinkActive="selected">€ {{product.product.price}} x {{product.quantity}} = € {{product.tot}} </p>
+              </div>
+              <div class="tags-btn">
+        <div class="tag-btn1">
+          <ion-button (click)="DecreaseQuantity(product.product.id)" class="cart-btn" color="warning">
+            <ion-icon name="remove-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="tag-btn2">
+          <ion-button (click)="RemoveFromCart(product.product.id)" class="cart-btn" color="danger">
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="tag-btn3">
+          <ion-button (click)="IncreaseQuantity(product.product.id)" class="cart-btn" color="success">
+            <ion-icon name="add-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+            </div>
+            
+          </div>
+
+        </div>
+
+        <div *ngIf="!isEmpty" class="total_section">
+          <ion-button (click)="PlaceOrder()" color="warning" class="total">
+            <ion-icon name="logo-paypal"></ion-icon>
+            <p class="make_order">Make Order of <span class="make_order_bold">{{total}} €</span> </p>
+          </ion-button>
+        </div>
+
+      </ion-content>
+    </ion-menu>
+
     <ion-router-outlet id="main-content"></ion-router-outlet>
+
   </ion-split-pane>
 
-
-
-
-
-  
 </ion-app>

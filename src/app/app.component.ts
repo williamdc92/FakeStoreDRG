@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RootObject, ShopService } from 'src/app/service/Shop-service/shop-service.service';
 import { Storage } from '@ionic/storage-angular';
-import { UserService, User,Me } from './service/UserService/user-service';
+import { UserService, CartElement,Me, orders } from './service/UserService/user-service';
 import { ToastController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular'; 
 
 @Component({
   selector: 'app-root',
@@ -15,22 +16,24 @@ import { ToastController } from '@ionic/angular';
 
 export class AppComponent {
   public appPages = [
-    { title: 'Cart', url: '/cart', icon: 'cart' },
-    { title: 'Favorites', url: '/favorites', icon: 'heart' },
+    { title: 'Wishlist', url: '/wishlist', icon: 'heart' },
     { title: 'Order History', url: '/order-history', icon: 'archive' }
   ];
 
 
 
 
-  constructor(public router: Router, public service: ShopService, private storage: Storage, private userService: UserService, public toastController: ToastController) {
+  constructor(private menu: MenuController, public router: Router, public service: ShopService, private storage: Storage, private userService: UserService, public toastController: ToastController) {
   }
 
   public producers = []
   public categories = [];
   database: RootObject[];
+  cart: CartElement[];
+  isEmpty = true;
   currentUser: Me;
   isAdmin: boolean;
+  total:number = 0;
 
 
   async ngOnInit() {
@@ -39,9 +42,15 @@ export class AppComponent {
     this.producers = this.database.map((item: { producer: string; }) => item.producer).filter((item, pos, self) => { return self.indexOf(item) == pos; });
     this.categories = this.database.map((item: { category: string; }) => item.category).filter((item, pos, self) => { return self.indexOf(item) == pos; });
     this.GetUser();
+    await this.GetCart();
+    
 
 
   }
+
+  openEnd() {  
+    this.menu.close();
+    }
 
 
   GetUser = async () => {
@@ -79,6 +88,115 @@ export class AppComponent {
     this.userService.activeSessions = false;
     await this.router.navigate(['tutorial'])
   }
+
+
+  GetCart = async () => {
+    if (await this.storage.get('logged') === true) {
+    try {
+      this.cart = await this.userService.GetCart(await this.storage.get('id'));
+      this.total = this.cart.map(item => item.tot).reduce((sum, item) => sum + item)
+      this.isEmpty = false;
+      
+    }
+    
+    catch {
+      this.isEmpty = true;
+    
+  }
+  }
+}
+
+RemoveFromCart = async (idp:string) => {
+  try {
+    this.userService.RemoveProductFromCart(await this.storage.get('id'),idp);
+    this.cart=[];
+    await this.ngOnInit();
+    const toast = await this.toastController.create({
+      message: `Product removed from cart`,
+      duration: 2000
+    });
+    toast.present();
+    
+  }
+
+  catch (err) {
+    const toast = await this.toastController.create({
+      message: `Cannot remove product from cart. Please try again`,
+      duration: 2000
+    });
+    toast.present();
+    
+  }
+
+}
+
+PlaceOrder = async () => {
+
+  const order:orders = {
+    date: new Date,
+    total: this.total,
+    items : this.cart,
+    id : ""
+  }
+
+  try {
+    await this.userService.AddOrder((await this.storage.get('id')),order,(await this.storage.get('token')))
+    const toast = await this.toastController.create({
+     message: 'Order send successfully!',
+     duration: 2000
+   });
+   toast.present();
+   this.ngOnInit();
+   this.openEnd();
+   this.total = 0;
+   }
+
+   catch (err) {
+     const toast = await this.toastController.create({
+       message: `Sorry, can't place order`,
+       duration: 2000
+     });
+     toast.present();
+     console.log(err);
+
+
+}
+
+}
+
+IncreaseQuantity = async (idp:string) => {
+
+  try {
+    await this.userService.IncreaseQuantity(await this.storage.get('id'),idp)
+    await this.ngOnInit();
+  }
+
+  catch (err) {
+    const toast = await this.toastController.create({
+      message: `Sorry, can't add element. Please try again later`,
+      duration: 2000
+    });
+    toast.present();
+    console.log(err);
+  }
+}
+
+DecreaseQuantity = async (idp:string) => {
+
+  try {
+    await this.userService.DecreaseQuantity(await this.storage.get('id'),idp)
+    await this.ngOnInit();
+  }
+
+  catch (err) {
+    const toast = await this.toastController.create({
+      message: `Sorry, can't remove element. Please try again later`,
+      duration: 2000
+    });
+    toast.present();
+    console.log(err);
+  }
+}
 
 
 }

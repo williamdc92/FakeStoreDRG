@@ -5,6 +5,7 @@
       <div>
         <ion-img src="../../../assets/logo.png"></ion-img>
       </div>
+      <ion-back-button color="secondary" slot="end" style="margin-right: 2%;" defaultHref="products"></ion-back-button>
     </ion-buttons>
   </div>
 </ion-header>
@@ -33,7 +34,7 @@
           {{user.email | slice:0:22}}
         </div>
         <div class="permissions-buttons">
-          <ion-button (click)="ChangeAdminStatus(user.id)" [disabled]="user.id==id" color="primary"
+          <ion-button (click)="ChangeAdminStatus(user.id)" [disabled]="user.token==token" color="primary"
             *ngIf="user.isAdmin">Admin: {{user.isAdmin}} </ion-button>
           <ion-button (click)="ChangeAdminStatus(user.id)" color="danger" *ngIf="!user.isAdmin"> Admin: {{user.isAdmin}}
           </ion-button>

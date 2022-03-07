@@ -1,20 +1,21 @@
-<ion-header *ngIf="this.userService.activeSessions==true">
-  <div class="logo-main">
+<ion-header>
+  <div class="ion-no-padding">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-      <div>
-        <ion-img src="../../../assets/logo.png"></ion-img>
-      </div>
+      <h2 color="light" style="width:100%; text-align:center;">{{order?.date | date}}</h2>
+      <ion-back-button color="secondary" slot="end" style="margin-right: 2%;" defaultHref="order-history"></ion-back-button>
     </ion-buttons>
   </div>
-</ion-header>
 
+</ion-header>
 
 <ion-content *ngIf="this.userService.activeSessions==false" class="background" [fullscreen]="true">
   <div class="error">
     <h1>Please <a [routerLink]="['']">login</a></h1>
   </div>
 </ion-content>
+
+
 
 <ion-content *ngIf="this.userService.activeSessions==true" class="background" [fullscreen]="true">
 
@@ -27,29 +28,31 @@
 
   <div *ngIf="error" class="error">
     <h1>Cart is Empty</h1>
-  </div>
+  </div> 
 
   <div class="cart_section">
-  <div *ngFor="let product of cart" class="my_card" routerDirection="root" [routerLink]="['/products/'+product.product.id]"
+  
+  <div *ngFor="let product of order?.items" class="my_card"
     lines="none" detail="false">
     <div class="img">
-      <ion-img class="img_img" src="{{product.product.image}}"> </ion-img>
+      <ion-img class="img_img" src="{{product?.product.image}}"> </ion-img>
     </div>
     <div class="content">
-      <div class="title">{{product.product.title}}</div>
+      <div class="title">{{product?.product.title}}</div>
       <div class="tags">
 
-        <p class="price">Price € {{product.product.price}} x {{product.quantity}} = Tot € {{product.tot}} </p>
+        <p class="price">Price € {{product?.product.price}} x {{product?.quantity}} = Tot € {{product?.tot}} </p>
 
       </div>
       </div>
     </div>
+    <h2 color="white" style="width:100%; text-align:center; color:white">Total Order: {{order?.total}} €</h2>
   </div>
 
   
   
 
-  <div class="total_section"><ion-button color="warning" class="total"><ion-icon name="logo-paypal"></ion-icon> <p class="make_order">Make Order of <span class="make_order_bold">{{total}} €</span> </p></ion-button></div>
+
 
 
   

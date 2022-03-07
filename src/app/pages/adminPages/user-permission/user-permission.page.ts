@@ -11,7 +11,7 @@ export class UserPermissionPage {
   users: User[];
   error: boolean = false;
   loading: boolean = true;
-  id: string = "";
+  token: string = "";
   admin = false;
 
   constructor(public userService: UserService, private storage: Storage) {
@@ -22,8 +22,7 @@ export class UserPermissionPage {
     await this.TakeUsers();
 
     await this.storage.create();
-    this.id = await this.storage.get('id');
-
+    this.token = await this.storage.get('token');
     await this.CheckIsAdmin();
 
   }
@@ -44,7 +43,7 @@ export class UserPermissionPage {
 
   CheckIsAdmin = async () => {
     try {
-      return this.admin = (await this.userService.GetUserByID(this.id)).isAdmin; //avoiding external entry
+      return this.admin = ((await this.userService.GetMe(this.token)).isAdmin); //avoiding external entry
     }
 
     catch {
@@ -55,7 +54,7 @@ export class UserPermissionPage {
 
   ChangeAdminStatus = async (id: string) => {
     try {
-      await this.userService.ChangeAdminStatus(id);
+      await this.userService.ChangeAdminStatus(id,(await this.storage.get('token')));
       await this.ionViewWillEnter();
     }
     catch (err) {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RootObject, ShopService, Valutation } from 'src/app/service/Shop-service/shop-service.service';
 import { ToastController } from '@ionic/angular';
-import { UserService, ProductInCart } from 'src/app/service/UserService/user-service';
+import { UserService, Product } from 'src/app/service/UserService/user-service';
 import { Storage } from '@ionic/storage-angular';
 
 @Component({
@@ -30,6 +30,7 @@ export class ProductDetailPage implements OnInit {
   
   loading = true;
   error = false;
+  isInFavourites: boolean = false;
   
   
   
@@ -40,6 +41,7 @@ export class ProductDetailPage implements OnInit {
       this.product = await this.service.GetFilterById(this.id);
       this.GetScore();
       this.loading = false;
+      this.isInFavourites =  (await this.userService.GetFavourites(await this.storage.get('id'))).some(item => item.id == (this.id))
     }
     catch {
       this.loading = false;
@@ -95,9 +97,9 @@ export class ProductDetailPage implements OnInit {
 
   PushInCart = async () => {
     const {valutations, ...filtered} = this.product;
-    const prod:ProductInCart = filtered;
+    const prod:Product = filtered;
     try {
-     await this.userService.AddProductInCart((await this.storage.get('id')),prod,(await this.storage.get('token')))
+     await this.userService.AddProduct((await this.storage.get('id')),prod,(await this.storage.get('token')))
      const toast = await this.toastController.create({
       message: 'Added in cart!',
       duration: 2000
@@ -115,5 +117,55 @@ export class ProductDetailPage implements OnInit {
     }
     
   }
+
+  PushInFavourites = async () => {
+    const {valutations, ...filtered} = this.product;
+    const prod:Product = filtered;
+    try {
+     await this.userService.AddFavourites((await this.storage.get('id')),prod)
+     const toast = await this.toastController.create({
+      message: 'Added in favourites!',
+      duration: 2000
+    });
+    toast.present();
+    this.ngOnInit();
+    }
+
+    catch (err) {
+      const toast = await this.toastController.create({
+        message: `Sorry, can't add item in favourites`,
+        duration: 2000
+      });
+      toast.present();
+      console.log(err);
+    }
+    
+  }
+
+  RemoveFromFavourites = async () => {
+
+    try {
+      await this.userService.DeleteFavourites((await this.storage.get('id')),this.id)
+      const toast = await this.toastController.create({
+       message: 'Removed from favourites',
+       duration: 2000
+     });
+     toast.present();
+     this.ngOnInit();
+     }
+ 
+     catch (err) {
+       const toast = await this.toastController.create({
+         message: `Sorry, can't remove item from favourites`,
+         duration: 2000
+       });
+       toast.present();
+       console.log(err);
+     }
+     
+   }
+    
+  }
+
+
   
-}

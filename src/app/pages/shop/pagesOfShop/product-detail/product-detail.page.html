@@ -48,8 +48,11 @@
 
       <div class="tags-btn">
         <div class="tag-btn1">
-          <ion-button color="danger">
+          <ion-button *ngIf="!isInFavourites" (click)="PushInFavourites()" color="danger">
             <ion-icon name="heart-outline"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="isInFavourites" (click)="RemoveFromFavourites()" color="unclick">
+            <ion-icon name="heart-dislike-outline"></ion-icon>
           </ion-button>
         </div>
         <div class="tag-btn2">
