@@ -41,7 +41,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/OtherPages/login/login.module').then(m => m.LoginPageModule)
   },
   {
-    path: 'admin/48d148c0-d41a-4f07-8134-178bea682c7b',
+    path: 'admin/products/manage',
     loadChildren: () => import('./pages/adminPages/edit-database/edit-database.module').then(m => m.EditDatabasePageModule)
   },
   {

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RootObject, ShopService } from 'src/app/service/Shop-service/shop-service.service';
 import { Storage } from '@ionic/storage-angular';
-import { UserService, CartElement,Me, orders } from './service/UserService/user-service';
+import { UserService, CartElement, Me, orders } from './service/UserService/user-service';
 import { ToastController } from '@ionic/angular';
-import { MenuController } from '@ionic/angular'; 
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -33,47 +33,67 @@ export class AppComponent {
   isEmpty = true;
   currentUser: Me;
   isAdmin: boolean;
-  total:number = 0;
+  total: number = 0;
 
 
   async ngOnInit() {
     await this.storage.create();
     this.database = await this.service.GetDatabase();
-    this.producers = this.database.map((item: { producer: string; }) => item.producer).filter((item, pos, self) => { return self.indexOf(item) == pos; });
-    this.categories = this.database.map((item: { category: string; }) => item.category).filter((item, pos, self) => { return self.indexOf(item) == pos; });
-    this.GetUser();
-    await this.GetCart();
-    
+    this.GetProducerCategory()
+    await this.GetUser();
+    await this.GetCart()
+
+  }
+
+
+  async Refresh() {
+    if (this.service.datachange == true) {
+      this.database = await this.service.GetDatabase();
+      this.GetProducerCategory()
+      this.service.datachange = false;
+    }
+
+    if (this.service.cartchange == true) {
+      await this.GetCart()
+      this.service.cartchange = false
+    }
+
+    await this.GetUser();
 
 
   }
 
-  openEnd() {  
+  async GetProducerCategory() {
+    console.log("Remapping!")
+    this.producers = this.database.map((item: { producer: string; }) => item.producer).filter((item, pos, self) => { return self.indexOf(item) == pos; });
+    this.categories = this.database.map((item: { category: string; }) => item.category).filter((item, pos, self) => { return self.indexOf(item) == pos; });
+  }
+
+  openEnd() {
     this.menu.close();
-    }
+  }
 
 
   GetUser = async () => {
 
-  if (await this.storage.get('logged') === true) {
-    try 
-       {
+    if (await this.storage.get('logged') === true) {
+      try {
         this.currentUser = await this.userService.GetMe(await this.storage.get('token'));
         this.isAdmin = this.currentUser?.isAdmin;
       }
 
-    
-    catch (err) {
-      console.log(err)
-      console.log("section expired")
-      const toast = await this.toastController.create({
-        message: `Section expired, please log in again`,
-        duration: 2000
-      });
-      toast.present();
-      this.LogOut();
+
+      catch (err) {
+        console.log(err)
+        console.log("section expired")
+        const toast = await this.toastController.create({
+          message: `Section expired, please log in again`,
+          duration: 2000
+        });
+        toast.present();
+        this.LogOut();
+      }
     }
-  }
 
 
   }
@@ -92,111 +112,117 @@ export class AppComponent {
 
   GetCart = async () => {
     if (await this.storage.get('logged') === true) {
-    try {
-      this.cart = await this.userService.GetCart(await this.storage.get('id'));
-      this.total = this.cart.map(item => item.tot).reduce((sum, item) => sum + item)
-      this.isEmpty = false;
-      
+      try {
+        this.cart = await this.userService.GetCart(await this.storage.get('id'));
+        this.total = this.cart.map(item => item.tot).reduce((sum, item) => sum + item)
+        this.isEmpty = false;
+        console.log("update cart!")
+
+      }
+
+      catch {
+        this.isEmpty = true;
+
+      }
     }
-    
-    catch {
-      this.isEmpty = true;
-    
-  }
-  }
-}
-
-RemoveFromCart = async (idp:string) => {
-  try {
-    this.userService.RemoveProductFromCart(await this.storage.get('id'),idp);
-    this.cart=[];
-    await this.ngOnInit();
-    const toast = await this.toastController.create({
-      message: `Product removed from cart`,
-      duration: 2000
-    });
-    toast.present();
-    
   }
 
-  catch (err) {
-    const toast = await this.toastController.create({
-      message: `Cannot remove product from cart. Please try again`,
-      duration: 2000
-    });
-    toast.present();
-    
+  RemoveFromCart = async (idp: string) => {
+    try {
+      this.userService.RemoveProductFromCart(await this.storage.get('id'), idp);
+      this.cart = [];
+      await this.ngOnInit();
+      const toast = await this.toastController.create({
+        message: `Product removed from cart`,
+        duration: 2000
+      });
+      toast.present();
+      this.service.cartchange = true;
+      this.Refresh();
+
+    }
+
+    catch (err) {
+      const toast = await this.toastController.create({
+        message: `Cannot remove product from cart. Please try again`,
+        duration: 2000
+      });
+      toast.present();
+
+    }
+
   }
 
-}
+  PlaceOrder = async () => {
 
-PlaceOrder = async () => {
+    const order: orders = {
+      date: new Date,
+      total: this.total,
+      items: this.cart,
+      id: ""
+    }
 
-  const order:orders = {
-    date: new Date,
-    total: this.total,
-    items : this.cart,
-    id : ""
+    try {
+      await this.userService.AddOrder((await this.storage.get('id')), order, (await this.storage.get('token')))
+      const toast = await this.toastController.create({
+        message: 'Order send successfully!',
+        duration: 2000
+      });
+      toast.present();
+      this.service.cartchange = true;
+      this.Refresh();
+      this.openEnd();
+      this.total = 0;
+    }
+
+    catch (err) {
+      const toast = await this.toastController.create({
+        message: `Sorry, can't place order`,
+        duration: 2000
+      });
+      toast.present();
+      console.log(err);
+
+
+    }
+
   }
 
-  try {
-    await this.userService.AddOrder((await this.storage.get('id')),order,(await this.storage.get('token')))
-    const toast = await this.toastController.create({
-     message: 'Order send successfully!',
-     duration: 2000
-   });
-   toast.present();
-   this.ngOnInit();
-   this.openEnd();
-   this.total = 0;
-   }
+  IncreaseQuantity = async (idp: string) => {
 
-   catch (err) {
-     const toast = await this.toastController.create({
-       message: `Sorry, can't place order`,
-       duration: 2000
-     });
-     toast.present();
-     console.log(err);
+    try {
+      await this.userService.IncreaseQuantity(await this.storage.get('id'), idp)
+      this.service.cartchange = true;
+      this.Refresh();
+    }
 
-
-}
-
-}
-
-IncreaseQuantity = async (idp:string) => {
-
-  try {
-    await this.userService.IncreaseQuantity(await this.storage.get('id'),idp)
-    await this.ngOnInit();
+    catch (err) {
+      const toast = await this.toastController.create({
+        message: `Sorry, can't add element. Please try again later`,
+        duration: 2000
+      });
+      toast.present();
+      console.log(err);
+    }
   }
 
-  catch (err) {
-    const toast = await this.toastController.create({
-      message: `Sorry, can't add element. Please try again later`,
-      duration: 2000
-    });
-    toast.present();
-    console.log(err);
-  }
-}
+  DecreaseQuantity = async (idp: string) => {
 
-DecreaseQuantity = async (idp:string) => {
+    try {
+      await this.userService.DecreaseQuantity(await this.storage.get('id'), idp)
+      this.service.cartchange = true;
+      this.Refresh();
+    }
 
-  try {
-    await this.userService.DecreaseQuantity(await this.storage.get('id'),idp)
-    await this.ngOnInit();
+    catch (err) {
+      const toast = await this.toastController.create({
+        message: `Sorry, can't remove element. Please try again later`,
+        duration: 2000
+      });
+      toast.present();
+      console.log(err);
+    }
   }
-
-  catch (err) {
-    const toast = await this.toastController.create({
-      message: `Sorry, can't remove element. Please try again later`,
-      duration: 2000
-    });
-    toast.present();
-    console.log(err);
-  }
-}
 
 
 }

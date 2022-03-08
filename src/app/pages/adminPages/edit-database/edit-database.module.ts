@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { IonicModule } from '@ionic/angular';
@@ -15,7 +15,8 @@ import { EditDatabasePage } from './edit-database.page';
     FormsModule,
     IonicModule,
     EditDatabasePageRoutingModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    ReactiveFormsModule
   ],
   declarations: [EditDatabasePage]
 })

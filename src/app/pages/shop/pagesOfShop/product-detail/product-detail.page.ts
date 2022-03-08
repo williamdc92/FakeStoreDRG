@@ -105,6 +105,7 @@ export class ProductDetailPage implements OnInit {
       duration: 2000
     });
     toast.present();
+    this.service.cartchange=true;
     }
 
     catch (err) {

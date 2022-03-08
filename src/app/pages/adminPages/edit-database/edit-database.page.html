@@ -5,19 +5,19 @@
       <div>
         <ion-img src="../../../assets/logo.png"></ion-img>
       </div>
+      <ion-back-button color="secondary" slot="end" style="margin-right: 2%;" defaultHref="products"></ion-back-button>
     </ion-buttons>
   </div>
 </ion-header>
 
 <ion-content *ngIf="this.userService.activeSessions==false" class="background" [fullscreen]="true">
   <div class="error">
-    <h1>Please <a [routerLink]="['']">login</a></h1>
+    <h1>Please <a [routerLink]="['']">login as Administratr</a></h1>
   </div>
 </ion-content>
 
 
 <ion-content *ngIf="this.userService.activeSessions==true" class="background" [fullscreen]="true">
-  <ion-searchbar class="searchbar" [(ngModel)]="searchValue" placeholder="Search" showCancelButton="focus" animated></ion-searchbar>
 
   <div *ngIf="loading" class="spinner">
     <ion-spinner color="secondary" name="crescent"></ion-spinner>
@@ -27,9 +27,60 @@
     <h1>Failed to load database</h1>
   </div>
 
-  
+  <div class="admin-choice" *ngIf="!error && !loading">
+    <ion-button [disabled] ="add" (click)="add=true" (click)="delete=false" color="success">Add products</ion-button>
+    <ion-button [disabled] ="delete" (click)="add=false" (click)="delete=true" color="danger">Delete products</ion-button>
+  </div>
 
-  
+  <div *ngIf="!error && !loading && delete">
+    <ion-searchbar class="searchbar" [(ngModel)]="searchValue" placeholder="Search" showCancelButton="focus" animated></ion-searchbar>
+    <div class="permission-main">
+      <div class="permissions" *ngFor="let product of products | filter:searchValue">
+        <div class="permissions-email">
+          {{product.title | slice:0:15}}
+        </div>
+        <div class="permissions-buttons">
+          <ion-button (click)="DeleteProduct(product.id)" color="danger" > Delete</ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  
+  <div *ngIf="!error && !loading && add">
+    
+    <form [formGroup]="AddForm" (ngSubmit)="AddProduct()">
+      <ion-item lines="full">
+        <ion-label position="floating">Title</ion-label>
+        <ion-input formControlName="title" type="text" required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Price</ion-label>
+        <ion-input formControlName="price" type="number" required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Description</ion-label>
+        <ion-input formControlName="description" type="text" required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Category</ion-label>
+        <ion-input formControlName="category" type="text" required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">producer</ion-label>
+        <ion-input formControlName="producer" type="text" required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">image</ion-label>
+        <ion-input formControlName="image" type="text" required></ion-input>
+      </ion-item>
+      
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+
+
 </ion-content>

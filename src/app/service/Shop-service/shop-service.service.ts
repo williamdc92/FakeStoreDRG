@@ -28,6 +28,9 @@ export class ShopService {
 
   constructor(private http: HttpClient) { this.GetDatabase }
 
+  datachange:boolean = false;
+  cartchange:boolean = false;
+
   GetDatabase = () => { return this.http.get<RootObject[]>(`${environment.host}/products`, {}).toPromise() };
 
   GetFilterByProducer = (producer: string) => { return this.http.get<RootObject[]>(`${environment.host}/products?producer=${producer}`, {}).toPromise() };
@@ -44,8 +47,11 @@ export class ShopService {
       }
     }
 
-    return this.http.post<Valutation>(`${environment.host}/products/${id}`, obj, option).toPromise()}; //REQUIRE USER TOKEN
+    return this.http.post<Valutation>(`${environment.host}/products/${id}`, obj, option).toPromise()};
   
+  DeleteProductById = (id: string) => { return this.http.delete<RootObject>(`${environment.host}/products/${id}`, {}).toPromise()}
+
+  AddProduct = (obj:RootObject) => { return this.http.post<RootObject>(`${environment.host}/products`,obj).toPromise(); }
   
 }
 
