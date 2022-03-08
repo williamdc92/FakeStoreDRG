@@ -15,7 +15,6 @@ export class FilterPage implements OnInit {
 
   searchValue:string;  
   value: string;
-  sub: any;
   database: RootObject[];
   loading = true;
   error = false;
@@ -24,9 +23,7 @@ export class FilterPage implements OnInit {
     await this.storage.create();
     if (await this.storage.get('logged') === true) this.userService.activeSessions = true;
     
-    this.sub = this.route.params.subscribe(params => {
-      this.value = params['producer'];
-    });
+      this.route.params.subscribe(params => {this.value = params['producer'];});
     
     try {
       this.database = await this.service.GetFilterByProducer(this.value);

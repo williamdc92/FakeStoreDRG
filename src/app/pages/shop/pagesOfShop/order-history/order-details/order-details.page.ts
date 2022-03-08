@@ -10,7 +10,6 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class OrderDetailsPage implements OnInit {
 
-  sub: any;
   order_id: string;
   order: orders;
   loading: boolean = true;
@@ -22,7 +21,7 @@ export class OrderDetailsPage implements OnInit {
     await this.storage.create();
 
     try {
-      this.sub = this.route.params.subscribe(params => { this.order_id = params['id']; });
+      this.route.params.subscribe(params => { this.order_id = params['id']; });
       this.order = await this.userService.GetOrderById(await this.storage.get('id'), this.order_id);
       this.loading= false;
     }
@@ -30,10 +29,6 @@ export class OrderDetailsPage implements OnInit {
       console.log(err);
       this.loading= false;
       this.error= true;
-
-
     }
-
   }
-
 }

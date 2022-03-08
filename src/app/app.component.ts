@@ -19,13 +19,13 @@ export class AppComponent {
     { title: 'Wishlist', url: '/wishlist', icon: 'heart' },
     { title: 'Order History', url: '/order-history', icon: 'archive' }
   ];
-
-
-
-
+  
+  
+  
+  
   constructor(private menu: MenuController, public router: Router, public service: ShopService, private storage: Storage, private userService: UserService, public toastController: ToastController) {
   }
-
+  
   public producers = []
   public categories = [];
   database: RootObject[];
@@ -34,55 +34,52 @@ export class AppComponent {
   currentUser: Me;
   isAdmin: boolean;
   total: number = 0;
-
-
+  
+  
   async ngOnInit() {
     await this.storage.create();
     this.database = await this.service.GetDatabase();
     this.GetProducerCategory()
     await this.GetUser();
     await this.GetCart()
-
+    
   }
-
-
-  async Refresh() {
+  
+  
+  Refresh = async () => {
     if (this.service.datachange == true) {
       this.database = await this.service.GetDatabase();
       this.GetProducerCategory()
       this.service.datachange = false;
     }
-
+    
     if (this.service.cartchange == true) {
       await this.GetCart()
       this.service.cartchange = false
     }
-
+    
     await this.GetUser();
-
-
+    
+    
   }
-
-  async GetProducerCategory() {
-    console.log("Remapping!")
+  
+  GetProducerCategory = () => {
     this.producers = this.database.map((item: { producer: string; }) => item.producer).filter((item, pos, self) => { return self.indexOf(item) == pos; });
     this.categories = this.database.map((item: { category: string; }) => item.category).filter((item, pos, self) => { return self.indexOf(item) == pos; });
   }
-
-  openEnd() {
-    this.menu.close();
-  }
-
-
+  
+  openEnd = () => {this.menu.close()}
+  
+  
   GetUser = async () => {
-
+    
     if (await this.storage.get('logged') === true) {
       try {
         this.currentUser = await this.userService.GetMe(await this.storage.get('token'));
         this.isAdmin = this.currentUser?.isAdmin;
       }
-
-
+      
+      
       catch (err) {
         console.log(err)
         console.log("section expired")
@@ -94,22 +91,20 @@ export class AppComponent {
         this.LogOut();
       }
     }
-
-
   }
-
+  
   LogOut = async () => {
     await this.storage.set('logged', false);
     await this.storage.set('viewed', false);
     await this.storage.set('email', "");
     await this.storage.set('token', "");
     await this.storage.set('id', "");
-
+    
     this.userService.activeSessions = false;
     await this.router.navigate(['tutorial'])
   }
-
-
+  
+  
   GetCart = async () => {
     if (await this.storage.get('logged') === true) {
       try {
@@ -117,16 +112,16 @@ export class AppComponent {
         this.total = this.cart.map(item => item.tot).reduce((sum, item) => sum + item)
         this.isEmpty = false;
         console.log("update cart!")
-
+        
       }
-
+      
       catch {
         this.isEmpty = true;
-
+        
       }
     }
   }
-
+  
   RemoveFromCart = async (idp: string) => {
     try {
       this.userService.RemoveProductFromCart(await this.storage.get('id'), idp);
@@ -139,29 +134,29 @@ export class AppComponent {
       toast.present();
       this.service.cartchange = true;
       this.Refresh();
-
+      
     }
-
+    
     catch (err) {
       const toast = await this.toastController.create({
         message: `Cannot remove product from cart. Please try again`,
         duration: 2000
       });
       toast.present();
-
+      
     }
-
+    
   }
-
+  
   PlaceOrder = async () => {
-
+    
     const order: orders = {
       date: new Date,
       total: this.total,
       items: this.cart,
       id: ""
     }
-
+    
     try {
       await this.userService.AddOrder((await this.storage.get('id')), order, (await this.storage.get('token')))
       const toast = await this.toastController.create({
@@ -174,7 +169,7 @@ export class AppComponent {
       this.openEnd();
       this.total = 0;
     }
-
+    
     catch (err) {
       const toast = await this.toastController.create({
         message: `Sorry, can't place order`,
@@ -182,20 +177,17 @@ export class AppComponent {
       });
       toast.present();
       console.log(err);
-
-
     }
-
   }
-
+  
   IncreaseQuantity = async (idp: string) => {
-
+    
     try {
       await this.userService.IncreaseQuantity(await this.storage.get('id'), idp)
       this.service.cartchange = true;
       this.Refresh();
     }
-
+    
     catch (err) {
       const toast = await this.toastController.create({
         message: `Sorry, can't add element. Please try again later`,
@@ -205,15 +197,15 @@ export class AppComponent {
       console.log(err);
     }
   }
-
+  
   DecreaseQuantity = async (idp: string) => {
-
+    
     try {
       await this.userService.DecreaseQuantity(await this.storage.get('id'), idp)
       this.service.cartchange = true;
       this.Refresh();
     }
-
+    
     catch (err) {
       const toast = await this.toastController.create({
         message: `Sorry, can't remove element. Please try again later`,
@@ -223,6 +215,6 @@ export class AppComponent {
       console.log(err);
     }
   }
-
-
+  
+  
 }

@@ -15,7 +15,6 @@ export class FiltercategoryPage implements OnInit {
   constructor(private route: ActivatedRoute, public service: ShopService, public userService: UserService, private storage: Storage) { }
   
   value: string;
-  sub: any;
   database: RootObject[];
   loading = true;
   error = false;
@@ -25,10 +24,9 @@ export class FiltercategoryPage implements OnInit {
     await this.storage.create();
     
     if (await this.storage.get('logged') === true) this.userService.activeSessions = true;
-    
-    this.sub = this.route.params.subscribe(params => {
-      this.value = params['category'];
-    });
+  
+      this.route.params.subscribe(params => {this.value = params['category'];});
+
     try {
       this.database = await this.service.GetFilterByCategory(this.value);
       this.loading = false;
@@ -36,10 +34,7 @@ export class FiltercategoryPage implements OnInit {
     catch {
       console.log("Failed to load database")
       this.loading = false;
-      this.error = true;
-      
+      this.error = true; 
     }
-    
   }
-  
 }
