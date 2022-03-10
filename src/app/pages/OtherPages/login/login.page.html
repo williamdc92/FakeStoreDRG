@@ -2,7 +2,7 @@
   <div *ngIf="activatelogin==false" class="authentication">
     <img src="../../../../assets/logo.png" />
     <h1>Registration</h1>
-    <form [formGroup]="SignupForm" (ngSubmit)="SignUp()" novalidate>
+    <form [formGroup]="SignupForm" (ngSubmit)="SignUp()">
       <ion-item lines="full">
         <ion-label position="floating">Name</ion-label>
         <ion-input formControlName="name" type="text" required></ion-input>
@@ -21,20 +21,20 @@
       </ion-item>
       <ion-row>
         <ion-col>
-          <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
+          <ion-button [disabled]="SignupForm.invalid" type="submit" color="danger" expand="block">Register</ion-button>
         </ion-col>
       </ion-row>
     </form>
 
 
-    <p>Already registered? Please <a (click)="activatelogin=true">Log In</a></p>
+    <p>Already registered? Please <a (click)="activatelogin=true">Login</a></p>
 
   </div>
 
   <div *ngIf="activatelogin==true" class="authentication">
     <img src="../../../../assets/logo.png" />
     <h1>Login</h1>
-    <form [formGroup]="LoginForm" (ngSubmit)="Login()" novalidate>
+    <form [formGroup]="LoginForm" (ngSubmit)="Login()">
 
 
       <ion-item lines="full">
@@ -48,7 +48,7 @@
 
       <ion-row>
         <ion-col>
-          <ion-button type="submit" color="danger" expand="block">Submit</ion-button>
+          <ion-button [disabled]="LoginForm.invalid" type="submit" color="danger" expand="block">Login</ion-button>
         </ion-col>
       </ion-row>
     </form>

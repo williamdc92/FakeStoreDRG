@@ -24,13 +24,13 @@ export class LoginPage implements OnInit {
 
   constructor(private router: Router, private storage: Storage, public formBuilder: FormBuilder, public service: AuthServiceService, public toastController: ToastController, public userService: UserService) {
     this.SignupForm = this.formBuilder.group({
-      name: [, [Validators.required, Validators.minLength(2)]],
+      name: [, [Validators.required, Validators.minLength(4)]],
       surname: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(2)]],
     })
     this.LoginForm = this.formBuilder.group({
-      email: [, [Validators.required, Validators.minLength(6)]],
+      email: [, [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(2)]],
     })
   }
