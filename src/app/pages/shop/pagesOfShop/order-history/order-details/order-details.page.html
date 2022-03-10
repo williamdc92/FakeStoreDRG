@@ -35,7 +35,7 @@
   <div *ngFor="let product of order?.items" class="my_card"
     lines="none" detail="false">
     <div class="img">
-      <ion-img class="img_img" src="{{product?.product.image}}"> </ion-img>
+      <ion-img class="img_img" [src]="product?.product.image"> </ion-img>
     </div>
     <div class="content">
       <div class="title">{{product?.product.title}}</div>

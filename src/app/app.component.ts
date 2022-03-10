@@ -23,15 +23,16 @@ export class AppComponent {
   
   
   
-  constructor(private menu: MenuController, public router: Router, public service: ShopService, private storage: Storage, private userService: UserService, public toastController: ToastController) {
+  constructor(private menu: MenuController, public router: Router, public service: ShopService, private storage: Storage, public userService: UserService, public toastController: ToastController) {
   }
   
   public producers = []
   public categories = [];
   database: RootObject[];
   cart: CartElement[];
-  isEmpty = true;
   currentUser: Me;
+
+  isEmpty = true; 
   isAdmin: boolean;
   total: number = 0;
   
@@ -40,25 +41,38 @@ export class AppComponent {
     await this.storage.create();
     this.database = await this.service.GetDatabase();
     this.GetProducerCategory()
+
     await this.GetUser();
     await this.GetCart()
+    
     
   }
   
   
   Refresh = async () => {
+    
     if (this.service.datachange == true) {
       this.database = await this.service.GetDatabase();
       this.GetProducerCategory()
       this.service.datachange = false;
     }
-    
+
     if (this.service.cartchange == true) {
       await this.GetCart()
       this.service.cartchange = false
     }
     
-    await this.GetUser();
+    if (this.userService.cartfirstcheck == true) {
+      await this.GetCart()
+      this.userService.cartfirstcheck = false;
+    }
+    
+    
+    if (this.userService.userfirstcheck ==true) {
+     await this.GetUser(); 
+     this.userService.userfirstcheck = false;
+    }
+    
     
     
   }
@@ -82,7 +96,6 @@ export class AppComponent {
       
       catch (err) {
         console.log(err)
-        console.log("section expired")
         const toast = await this.toastController.create({
           message: `Section expired, please log in again`,
           duration: 2000
@@ -108,11 +121,10 @@ export class AppComponent {
   GetCart = async () => {
     if (await this.storage.get('logged') === true) {
       try {
+
+        this.isEmpty = false;
         this.cart = await this.userService.GetCart(await this.storage.get('id'));
         this.total = this.cart.map(item => item.tot).reduce((sum, item) => sum + item)
-        this.isEmpty = false;
-        console.log("update cart!")
-        
       }
       
       catch {
@@ -124,8 +136,7 @@ export class AppComponent {
   
   RemoveFromCart = async (idp: string) => {
     try {
-      this.userService.RemoveProductFromCart(await this.storage.get('id'), idp);
-      this.cart = [];
+      await this.userService.RemoveProductFromCart(await this.storage.get('id'), idp);
       await this.ngOnInit();
       const toast = await this.toastController.create({
         message: `Product removed from cart`,

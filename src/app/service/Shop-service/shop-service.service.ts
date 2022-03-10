@@ -30,6 +30,7 @@ export class ShopService {
 
   datachange:boolean = false;
   cartchange:boolean = false;
+  
 
   GetDatabase = () => { return this.http.get<RootObject[]>(`${environment.host}/products`, {}).toPromise() };
 

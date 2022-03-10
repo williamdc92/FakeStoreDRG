@@ -80,14 +80,17 @@
         </ion-list-header>
       </ion-list>
       <ion-content>
+       <div class="error" *ngIf="this.service.cartchange || this.userService.cartfirstcheck" >
+        <ion-spinner color="secondary" name="crescent"></ion-spinner>
+       </div>
         <div class="error" *ngIf="isEmpty">
           <h1>Cart is empty</h1>
         </div>
-        <div class="cart_section">
+        <div class="cart_section"  *ngIf="!isEmpty">
           <div *ngFor="let product of cart" class="my_card">
             <div class="img" (click)="openEnd()" routerDirection="root"
             [routerLink]="['/products/'+product.product.id]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-img class="img_img" src="{{product.product.image}}"> </ion-img>
+              <ion-img class="img_img" [src]="product.product.image"> </ion-img>
             </div>
             <div class="content">
               <div class="title" (click)="openEnd()" routerDirection="root"
@@ -116,15 +119,15 @@
             </div>
             
           </div>
-
-        </div>
-
-        <div *ngIf="!isEmpty" class="total_section">
+          <div class="total_section">
           <ion-button (click)="PlaceOrder()" color="warning" class="total">
             <ion-icon name="logo-paypal"></ion-icon>
             <p class="make_order">Make Order of <span class="make_order_bold">{{total}} €</span> </p>
           </ion-button>
         </div>
+        </div>
+
+        
 
       </ion-content>
     </ion-menu>

@@ -31,7 +31,7 @@
   <div *ngFor="let product of database | filter:searchValue" class="my_card" routerDirection="root" [routerLink]="['/products/'+product.id]"
     lines="none" detail="false">
     <div class="img">
-      <ion-img class="img_img" src="{{product.image}}"> </ion-img>
+      <ion-img class="img_img" [src]="product.image"> </ion-img>
     </div>
     <div class="content">
       <div class="title">{{product.title}}</div>

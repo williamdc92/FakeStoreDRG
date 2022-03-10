@@ -73,6 +73,8 @@ export class LoginPage implements OnInit {
       this.storage.set('email', resultL.email);
       this.storage.set('token', resultL.token);
       this.storage.set('id', resultL.id);
+      this.userService.cartfirstcheck = true;
+      this.userService.userfirstcheck = true;
       const toast = await this.toastController.create({
         message: 'Welcome ' + resultL.email + "!",
         duration: 2000

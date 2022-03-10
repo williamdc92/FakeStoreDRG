@@ -54,6 +54,8 @@ export interface orders {
 export class UserService {
 
   activeSessions: boolean = false;
+  cartfirstcheck:boolean = false;
+  userfirstcheck:boolean = false;
 
 
 
