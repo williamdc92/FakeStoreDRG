@@ -74,10 +74,15 @@
 
     <ion-menu side="end" menuId="cartMenu" contentId="main-content">
       <ion-list id="inbox-list">
-        <ion-list-header>
-          <ion-label class="ion-text-center" color="light">Cart </ion-label>
-
-        </ion-list-header>
+        <ion-header>
+          <h1 class="ion-text-center" color="light">Cart </h1>
+          <div class="total_section">
+            <ion-button *ngIf="!isEmpty" (click)="PlaceOrder()" color="warning">
+              <ion-icon name="logo-paypal"></ion-icon>
+              <ion-text class="make_order">Make Order of <span class="make_order_bold">{{total}} €</span></ion-text> 
+            </ion-button>
+          </div>
+        </ion-header>
       </ion-list>
       <ion-content>
        <div class="error" *ngIf="this.service.cartchange || this.userService.cartfirstcheck" >
@@ -119,12 +124,6 @@
             </div>
             
           </div>
-          <div class="total_section">
-          <ion-button (click)="PlaceOrder()" color="warning" class="total">
-            <ion-icon name="logo-paypal"></ion-icon>
-            <p class="make_order">Make Order of <span class="make_order_bold">{{total}} €</span> </p>
-          </ion-button>
-        </div>
         </div>
 
         

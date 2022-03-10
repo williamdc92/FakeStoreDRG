@@ -99,12 +99,12 @@ export class ProductDetailPage implements OnInit {
     const prod: Product = filtered;
     try {
       await this.userService.AddProduct((await this.storage.get('id')), prod, (await this.storage.get('token')))
+      this.service.cartchange = true;
       const toast = await this.toastController.create({
         message: 'Added in cart!',
         duration: 2000
       });
       toast.present();
-      this.service.cartchange = true;
     }
 
     catch (err) {

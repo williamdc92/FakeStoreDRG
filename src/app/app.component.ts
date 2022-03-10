@@ -51,6 +51,16 @@ export class AppComponent {
   
   Refresh = async () => {
     
+    try {
+      this.total = this.cart.map(item => item.tot).reduce((sum, item) => sum + item)
+      this.isEmpty = false;
+    }
+
+    catch(err) {
+      console.log(err)
+    }
+    
+
     if (this.service.datachange == true) {
       this.database = await this.service.GetDatabase();
       this.GetProducerCategory()

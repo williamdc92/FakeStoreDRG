@@ -392,15 +392,11 @@ ion-title {
   width: 40%;
 }
 
-.total {
+.total_section {
   
-  background-color: rgba(255, 255, 255, 0.639);
-  border-radius: 10px;
-  position: fixed;
-  left: 50%;
-  bottom: 10px;
-  transform: translate(-50%, -50%);
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 

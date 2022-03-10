@@ -18,6 +18,9 @@ log.txt
 npm-debug.log*
 
 /.angular
+/.android
+/.www
+capacitor.config.ts
 /.idea
 /.ionic
 /.sass-cache
