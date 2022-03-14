@@ -494,7 +494,21 @@ ion-title {
     margin-bottom: 4rem;
   }
 
+}
 
+@media (max-width: 380px) {
+  .ios ion-toolbar {
+    padding-top: 40px;
+    ion-title{
+      padding-top:35px;
+    }
+  }
 
+  .ios ion-header {
+    padding-top:22px;
+  }
+}
 
+.toolbar-ios {
+  padding-top: env(safe-area-inset-top);
 }
