@@ -26,7 +26,7 @@ export class FilterPage implements OnInit {
       this.route.params.subscribe(params => {this.value = params['producer'];});
     
     try {
-      this.database = await this.service.GetFilterByProducer(this.value);
+      this.database = await this.service.getFilterByProducer(this.value);
       this.loading = false;
     }
     catch {

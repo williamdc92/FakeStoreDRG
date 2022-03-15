@@ -37,10 +37,10 @@ export class ProductDetailPage implements OnInit {
     await this.storage.create();
     this.route.params.subscribe(params => { this.id = params['id']; });
     try {
-      this.product = await this.service.GetFilterById(this.id);
-      this.GetScore();
+      this.product = await this.service.getFilterById(this.id);
+      this.getScore();
       this.loading = false;
-      this.isInFavourites = (await this.userService.GetFavourites(await this.storage.get('id'))).some(item => item.id == (this.id))
+      this.isInFavourites = (await this.userService.getFavourites(await this.storage.get('id'))).some(item => item.id == (this.id))
     }
     catch {
       this.loading = false;
@@ -49,16 +49,16 @@ export class ProductDetailPage implements OnInit {
   }
 
 
-  GetScore = async () => {
+  getScore = async () => {
     this.valutations = this.product.valutations.map(val => val.star);
     this.rank = await this.valutations.reduce((rank, value) => rank + value, 0) / this.valutations.length;
   }
 
-  Valutate = async () => {
+  valutate = async () => {
     let response: Valutation;
 
     try {
-      response = await this.service.PostComment(this.id, this.currentValutation, (await this.storage.get('token')));
+      response = await this.service.postComment(this.id, this.currentValutation, (await this.storage.get('token')));
       console.log(response);
 
 
@@ -94,11 +94,11 @@ export class ProductDetailPage implements OnInit {
   }
 
 
-  PushInCart = async () => {
+  pushInCart = async () => {
     const { valutations, ...filtered } = this.product;
     const prod: Product = filtered;
     try {
-      await this.userService.AddProduct((await this.storage.get('id')), prod, (await this.storage.get('token')))
+      await this.userService.addProduct((await this.storage.get('id')), prod, (await this.storage.get('token')))
       this.service.cartchange = true;
       const toast = await this.toastController.create({
         message: 'Added in cart!',
@@ -118,11 +118,11 @@ export class ProductDetailPage implements OnInit {
 
   }
 
-  PushInFavourites = async () => {
+  pushInFavourites = async () => {
     const { valutations, ...filtered } = this.product;
     const prod: Product = filtered;
     try {
-      await this.userService.AddFavourites((await this.storage.get('id')), prod)
+      await this.userService.addFavourites((await this.storage.get('id')), prod)
       const toast = await this.toastController.create({
         message: 'Added in favourites!',
         duration: 2000
@@ -142,10 +142,10 @@ export class ProductDetailPage implements OnInit {
 
   }
 
-  RemoveFromFavourites = async () => {
+  removeFromFavourites = async () => {
 
     try {
-      await this.userService.DeleteFavourites((await this.storage.get('id')), this.id)
+      await this.userService.deleteFavourites((await this.storage.get('id')), this.id)
       const toast = await this.toastController.create({
         message: 'Removed from favourites',
         duration: 2000

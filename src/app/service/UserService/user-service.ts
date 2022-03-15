@@ -64,7 +64,7 @@ export class UserService {
 
 
 
-  GetMe = (token: string) => {
+  getMe = (token: string) => {
     const option = {
       headers: {
         'authorization': `${token}`
@@ -75,10 +75,10 @@ export class UserService {
 
   };
 
-  GetUserByID = (id: string) => { return this.http.get<User>(`${environment.host}/users/${id}`, {}).toPromise() };
-  GetUsers = () => { return this.http.get<User[]>(`${environment.host}/users/`, {}).toPromise() };
+  getUserByID = (id: string) => { return this.http.get<User>(`${environment.host}/users/${id}`, {}).toPromise() };
+  getUsers = () => { return this.http.get<User[]>(`${environment.host}/users/`, {}).toPromise() };
 
-  ChangeAdminStatus = (id: string, token: string) => {
+  changeAdminStatus = (id: string, token: string) => {
 
     const option = {
       headers: {
@@ -90,11 +90,11 @@ export class UserService {
   }; 
 
 
-  GetCart = (id: string) => { return this.http.get<CartElement[]>(`${environment.host}/users/${id}/cart`, {}).toPromise() };
+  getCart = (id: string) => { return this.http.get<CartElement[]>(`${environment.host}/users/${id}/cart`, {}).toPromise() };
 
-  GetOrders = (id: string) => { return this.http.get<orders[]>(`${environment.host}/users/${id}/orders`, {}).toPromise() };
+  getOrders = (id: string) => { return this.http.get<orders[]>(`${environment.host}/users/${id}/orders`, {}).toPromise() };
 
-  AddProduct = (id: string, product: Product, token: string) => {
+  addProduct = (id: string, product: Product, token: string) => {
     const option = {
       headers: {
         'authorization': `${token}`
@@ -104,7 +104,7 @@ export class UserService {
     return this.http.post<CartElement>(`${environment.host}/users/${id}/cart`, product, option).toPromise()
   }
 
-  AddOrder = (id: string, order: orders, token: string) => {
+  addOrder = (id: string, order: orders, token: string) => {
     const option = {
       headers: {
         'authorization': `${token}`
@@ -114,31 +114,31 @@ export class UserService {
     return this.http.post<orders>(`${environment.host}/users/${id}/orders`, order, option).toPromise()
   } 
 
-  GetOrderById = (id:string, ido:string) => {
+  getOrderById = (id:string, ido:string) => {
     return this.http.get<orders>(`${environment.host}/users/${id}/orders/${ido}`).toPromise();
   }
 
-  RemoveProductFromCart = (id: string, idp: string) => {
+  removeProductFromCart = (id: string, idp: string) => {
     return this.http.delete<CartElement>(`${environment.host}/users/${id}/cart/${idp}`, {}).toPromise()
   }
 
-  IncreaseQuantity = (id: string, idp: string) => {
+  increaseQuantity = (id: string, idp: string) => {
     return this.http.put <CartElement>(`${environment.host}/users/${id}/cart/${idp}/increase`, {}).toPromise()
   }
 
-  DecreaseQuantity = (id: string, idp: string) => {
+  decreaseQuantity = (id: string, idp: string) => {
     return this.http.put <CartElement>(`${environment.host}/users/${id}/cart/${idp}/decrease`, {}).toPromise()
   }
 
-  AddFavourites = (id: string, product: Product) => {
+  addFavourites = (id: string, product: Product) => {
     return this.http.post <Product>(`${environment.host}/users/${id}/favourites`,product).toPromise()
   }
 
-  DeleteFavourites = (id:string, idp: string) => {
+  deleteFavourites = (id:string, idp: string) => {
     return this.http.delete <Product>(`${environment.host}/users/${id}/favourites/${idp}`, {}).toPromise()
   }
 
-  GetFavourites = (id:string) => {
+  getFavourites = (id:string) => {
     return this.http.get<Product[]>(`${environment.host}/users/${id}/favourites`, {}).toPromise()
   }
 

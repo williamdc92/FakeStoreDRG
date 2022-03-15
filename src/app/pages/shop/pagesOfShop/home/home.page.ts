@@ -29,7 +29,7 @@ export class HomePage implements OnInit {
     if (await this.storage.get('logged') === true) this.userService.activeSessions = true;
     
     try {
-      this.database = await this.service.GetDatabase();
+      this.database = await this.service.getDatabase();
       this.loading = false;
       
     }

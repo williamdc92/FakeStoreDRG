@@ -28,7 +28,7 @@ export class FiltercategoryPage implements OnInit {
       this.route.params.subscribe(params => {this.value = params['category'];});
 
     try {
-      this.database = await this.service.GetFilterByCategory(this.value);
+      this.database = await this.service.getFilterByCategory(this.value);
       this.loading = false;
     }
     catch {

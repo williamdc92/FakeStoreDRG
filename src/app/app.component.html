@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-split-pane (click)="Refresh()" contentId="main-content">
+  <ion-split-pane (click)="refresh()" contentId="main-content">
 
     <ion-menu [swipeGesture]="false" side="start" menuId="mainMenu" contentId="main-content" type="overlay">
 
@@ -10,7 +10,7 @@
           </ion-list-header>
 
           <ion-note color="light">{{currentUser?.email}}</ion-note>
-          <a (click)="LogOut()"> Logout</a>
+          <a (click)="logOut()"> Logout</a>
 
           <div *ngIf="isAdmin" class="admin_zone">
             <ion-list-header>

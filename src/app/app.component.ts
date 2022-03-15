@@ -51,11 +51,11 @@ export class AppComponent {
     try {
 
       await this.storage.create();
-      this.database = await this.service.GetDatabase();
-      this.GetProducerCategory()
+      this.database = await this.service.getDatabase();
+      this.getProducerCategory()
 
-      await this.GetUser();
-      await this.GetCart()
+      await this.getUser();
+      await this.getCart()
     }
 
     catch (err) {
@@ -68,7 +68,7 @@ export class AppComponent {
   }
 
 
-  Refresh = async () => {
+  refresh = async () => {
 
     try {
       this.total = this.cart.map(item => item.tot).reduce((sum, item) => sum + item)
@@ -81,24 +81,24 @@ export class AppComponent {
 
 
     if (this.service.datachange == true) {
-      this.database = await this.service.GetDatabase();
-      this.GetProducerCategory()
+      this.database = await this.service.getDatabase();
+      this.getProducerCategory()
       this.service.datachange = false;
     }
 
     if (this.service.cartchange == true) {
-      await this.GetCart()
+      await this.getCart()
       this.service.cartchange = false
     }
 
     if (this.userService.cartfirstcheck == true) {
-      await this.GetCart()
+      await this.getCart()
       this.userService.cartfirstcheck = false;
     }
 
 
     if (this.userService.userfirstcheck == true) {
-      await this.GetUser();
+      await this.getUser();
       this.userService.userfirstcheck = false;
     }
 
@@ -106,7 +106,7 @@ export class AppComponent {
 
   }
 
-  GetProducerCategory = () => {
+  getProducerCategory = () => {
     this.producers = this.database.map((item: { producer: string; }) => item.producer).filter((item, pos, self) => { return self.indexOf(item) == pos; });
     this.categories = this.database.map((item: { category: string; }) => item.category).filter((item, pos, self) => { return self.indexOf(item) == pos; });
   }
@@ -114,11 +114,11 @@ export class AppComponent {
   openEnd = () => { this.menu.close() }
 
 
-  GetUser = async () => {
+  getUser = async () => {
 
     if (await this.storage.get('logged') === true) {
       try {
-        this.currentUser = await this.userService.GetMe(await this.storage.get('token'));
+        this.currentUser = await this.userService.getMe(await this.storage.get('token'));
         this.isAdmin = this.currentUser?.isAdmin;
       }
 
@@ -130,12 +130,12 @@ export class AppComponent {
           duration: 2000
         });
         toast.present();
-        this.LogOut();
+        this.logOut();
       }
     }
   }
 
-  LogOut = async () => {
+  logOut = async () => {
     await this.storage.set('logged', false);
     await this.storage.set('viewed', false);
     await this.storage.set('email', "");
@@ -147,12 +147,12 @@ export class AppComponent {
   }
 
 
-  GetCart = async () => {
+  getCart = async () => {
     if (await this.storage.get('logged') === true) {
       try {
 
         this.isEmpty = false;
-        this.cart = await this.userService.GetCart(await this.storage.get('id'));
+        this.cart = await this.userService.getCart(await this.storage.get('id'));
         this.total = this.cart.map(item => item.tot).reduce((sum, item) => sum + item)
       }
 
@@ -165,7 +165,7 @@ export class AppComponent {
 
   RemoveFromCart = async (idp: string) => {
     try {
-      await this.userService.RemoveProductFromCart(await this.storage.get('id'), idp);
+      await this.userService.removeProductFromCart(await this.storage.get('id'), idp);
       await this.ngOnInit();
       const toast = await this.toastController.create({
         message: `Product removed from cart`,
@@ -173,7 +173,7 @@ export class AppComponent {
       });
       toast.present();
       this.service.cartchange = true;
-      this.Refresh();
+      this.refresh();
 
     }
 
@@ -198,14 +198,14 @@ export class AppComponent {
     }
 
     try {
-      await this.userService.AddOrder((await this.storage.get('id')), order, (await this.storage.get('token')))
+      await this.userService.addOrder((await this.storage.get('id')), order, (await this.storage.get('token')))
       const toast = await this.toastController.create({
         message: 'Order send successfully!',
         duration: 2000
       });
       toast.present();
       this.service.cartchange = true;
-      this.Refresh();
+      this.refresh();
       this.openEnd();
       this.total = 0;
     }
@@ -223,9 +223,9 @@ export class AppComponent {
   IncreaseQuantity = async (idp: string) => {
 
     try {
-      await this.userService.IncreaseQuantity(await this.storage.get('id'), idp)
+      await this.userService.increaseQuantity(await this.storage.get('id'), idp)
       this.service.cartchange = true;
-      this.Refresh();
+      this.refresh();
     }
 
     catch (err) {
@@ -241,9 +241,9 @@ export class AppComponent {
   DecreaseQuantity = async (idp: string) => {
 
     try {
-      await this.userService.DecreaseQuantity(await this.storage.get('id'), idp)
+      await this.userService.decreaseQuantity(await this.storage.get('id'), idp)
       this.service.cartchange = true;
-      this.Refresh();
+      this.refresh();
     }
 
     catch (err) {

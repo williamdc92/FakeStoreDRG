@@ -36,18 +36,18 @@ export class EditDatabasePage {
   }
 
   async ionViewWillEnter() {
-    await this.TakeProducts();
+    await this.takeProducts();
 
     await this.storage.create();
     this.token = await this.storage.get('token');
-    await this.CheckIsAdmin();
+    await this.checkIsAdmin();
 
   }
 
 
-  TakeProducts = async () => {
+  takeProducts = async () => {
     try {
-      this.products = await this.service.GetDatabase();
+      this.products = await this.service.getDatabase();
       this.loading = false;
     }
 
@@ -58,9 +58,9 @@ export class EditDatabasePage {
     }
   }
 
-  CheckIsAdmin = async () => {
+  checkIsAdmin = async () => {
     try {
-      return this.admin = ((await this.userService.GetMe(this.token)).isAdmin); //avoiding external entry
+      return this.admin = ((await this.userService.getMe(this.token)).isAdmin); //avoiding external entry
     }
 
     catch {
@@ -69,10 +69,10 @@ export class EditDatabasePage {
 
   }
 
-  DeleteProduct = async (id: string) => {
+  deleteProduct = async (id: string) => {
     try {
 
-      await this.service.DeleteProductById(id);
+      await this.service.deleteProductById(id);
       await this.ionViewWillEnter();
       const toast = await this.toastController.create({
         message: `Product removed from database`,
@@ -96,11 +96,11 @@ export class EditDatabasePage {
     }
   }
 
-  AddProduct = async () => {
+  addProduct = async () => {
     const Eform:RootObject = this.AddForm.value;
 
     try {
-      await this.service.AddProduct(Eform)
+      await this.service.addProduct(Eform)
       await this.ionViewWillEnter();
       const toast = await this.toastController.create({
         message: `Product added successfully!`,

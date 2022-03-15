@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage-angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { AuthServiceService, SignUpFormInterface, LoginFormInterface, SuccessfulLogin } from '../../../service/AuthService/auth-service.service';
 import { ToastController } from '@ionic/angular';
-import { UserService} from 'src/app/service/UserService/user-service';
+import { UserService } from 'src/app/service/UserService/user-service';
 
 
 
@@ -38,15 +38,15 @@ export class LoginPage implements OnInit {
 
 
 
-  async ngOnInit  () {
+  async ngOnInit() {
     await this.storage.create();
-    this.Check();
+    this.check();
   }
 
-  SignUp = async () => {
+  signUp = async () => {
     const Sform: SignUpFormInterface = this.SignupForm.value;
     try {
-      const resultS: Response = await this.service.SignUp(Sform)
+      const resultS: Response = await this.service.signUp(Sform)
       console.log(resultS);
       const toast = await this.toastController.create({
         message: 'Success: ' + resultS,
@@ -66,10 +66,12 @@ export class LoginPage implements OnInit {
   }
 
 
-  Login = async () => {
+  login = async () => {
     const Lform: LoginFormInterface = this.LoginForm.value;
+    
     try {
-      const resultL: SuccessfulLogin = await this.service.LogIn(Lform) //SHOULD MAKE CONTROL BECAUSE HEROKU DELETE DATABASE EVERY DAY
+
+      const resultL: SuccessfulLogin = await this.service.logIn(Lform) //SHOULD MAKE CONTROL BECAUSE HEROKU DELETE DATABASE EVERY DAY
       this.storage.set('email', resultL.email);
       this.storage.set('token', resultL.token);
       this.storage.set('id', resultL.id);
@@ -82,7 +84,8 @@ export class LoginPage implements OnInit {
       this.userService.activeSessions = true;
       toast.present();
 
-      this.SetValue(true);
+      await this.storage.set('logged', true);
+      await this.router.navigate(['products'])
 
     }
     catch (err) {
@@ -94,12 +97,8 @@ export class LoginPage implements OnInit {
     }
   }
 
-  SetValue = async (value: boolean) => {
-    await this.storage.set('logged', value);
-    this.ngOnInit();
-  }
 
-  Check = async () => {
+  check = async () => {
     if (await this.storage.get('logged') === true) {
       await this.router.navigate(['products'])
       console.log("logged");

@@ -16,16 +16,16 @@ export class TutorialPage{
 
   async ionViewWillEnter () {
     await this.storage.create();
-    this.Check();
+    this.check();
   }
 
-  SetValue = async () => {
+  setValue = async () => {
     await this.storage.set('viewed',true);
     await this.router.navigate(['login'])
   }
 
 
-  Check = async () => {
+  check = async () => {
     if (await this.storage.get('viewed') == true && await this.storage.get('logged') == false) {
       await this.router.navigate(['login'])
       console.log("viewed");

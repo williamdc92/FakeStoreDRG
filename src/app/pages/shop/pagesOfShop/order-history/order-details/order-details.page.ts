@@ -22,7 +22,7 @@ export class OrderDetailsPage implements OnInit {
 
     try {
       this.route.params.subscribe(params => { this.order_id = params['id']; });
-      this.order = await this.userService.GetOrderById(await this.storage.get('id'), this.order_id);
+      this.order = await this.userService.getOrderById(await this.storage.get('id'), this.order_id);
       this.loading= false;
     }
     catch (err) {

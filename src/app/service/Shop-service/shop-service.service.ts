@@ -26,21 +26,21 @@ export interface RootObject {
 })
 export class ShopService {
 
-  constructor(private http: HttpClient) { this.GetDatabase }
+  constructor(private http: HttpClient) { this.getDatabase }
 
   datachange:boolean = false;
   cartchange:boolean = false;
   
 
-  GetDatabase = () => { return this.http.get<RootObject[]>(`${environment.host}/products`, {}).toPromise() };
+  getDatabase = () => { return this.http.get<RootObject[]>(`${environment.host}/products`, {}).toPromise() };
 
-  GetFilterByProducer = (producer: string) => { return this.http.get<RootObject[]>(`${environment.host}/products?producer=${producer}`, {}).toPromise() };
+  getFilterByProducer = (producer: string) => { return this.http.get<RootObject[]>(`${environment.host}/products?producer=${producer}`, {}).toPromise() };
 
-  GetFilterByCategory = (category: string) => { return this.http.get<RootObject[]>(`${environment.host}/products?category=${category}`, {}).toPromise() };
+  getFilterByCategory = (category: string) => { return this.http.get<RootObject[]>(`${environment.host}/products?category=${category}`, {}).toPromise() };
 
-  GetFilterById = (id: string) => { return this.http.get<RootObject>(`${environment.host}/products/${id}`, {}).toPromise()};
+  getFilterById = (id: string) => { return this.http.get<RootObject>(`${environment.host}/products/${id}`, {}).toPromise()};
 
-  PostComment = (id: string, obj: Valutation, token:string) => {
+  postComment = (id: string, obj: Valutation, token:string) => {
     
     const option = {
       headers: {
@@ -50,9 +50,9 @@ export class ShopService {
 
     return this.http.post<Valutation>(`${environment.host}/products/${id}`, obj, option).toPromise()};
   
-  DeleteProductById = (id: string) => { return this.http.delete<RootObject>(`${environment.host}/products/${id}`, {}).toPromise()}
+  deleteProductById = (id: string) => { return this.http.delete<RootObject>(`${environment.host}/products/${id}`, {}).toPromise()}
 
-  AddProduct = (obj:RootObject) => { return this.http.post<RootObject>(`${environment.host}/products`,obj).toPromise(); }
+  addProduct = (obj:RootObject) => { return this.http.post<RootObject>(`${environment.host}/products`,obj).toPromise(); }
   
 }
 

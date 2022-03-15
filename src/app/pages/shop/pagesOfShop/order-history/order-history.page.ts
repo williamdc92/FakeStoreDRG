@@ -23,7 +23,7 @@ export class OrderHistoryPage implements OnInit {
     if (await this.storage.get('logged') === true) this.userService.activeSessions = true;
     
     try {
-      this.orders = await this.userService.GetOrders(await this.storage.get('id'));
+      this.orders = await this.userService.getOrders(await this.storage.get('id'));
       this.loading = false;
     }
     

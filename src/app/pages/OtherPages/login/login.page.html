@@ -2,7 +2,7 @@
   <div *ngIf="activatelogin==false" class="authentication">
     <img src="../../../../assets/logo.png" />
     <h1>Registration</h1>
-    <form [formGroup]="SignupForm" (ngSubmit)="SignUp()">
+    <form [formGroup]="SignupForm" (ngSubmit)="signUp()">
       <ion-item lines="full">
         <ion-label position="floating">Name</ion-label>
         <ion-input formControlName="name" type="text" required></ion-input>
@@ -34,7 +34,7 @@
   <div *ngIf="activatelogin==true" class="authentication">
     <img src="../../../../assets/logo.png" />
     <h1>Login</h1>
-    <form [formGroup]="LoginForm" (ngSubmit)="Login()">
+    <form [formGroup]="LoginForm" (ngSubmit)="login()">
 
 
       <ion-item lines="full">

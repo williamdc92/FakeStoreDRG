@@ -40,7 +40,7 @@
           {{product.title | slice:0:15}}
         </div>
         <div class="permissions-buttons">
-          <ion-button (click)="DeleteProduct(product.id)" color="danger" > Delete</ion-button>
+          <ion-button (click)="deleteProduct(product.id)" color="danger" > Delete</ion-button>
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@
 
   <div *ngIf="!error && !loading && add">
     
-    <form [formGroup]="AddForm" (ngSubmit)="AddProduct()">
+    <form [formGroup]="AddForm" (ngSubmit)="addProduct()">
       <ion-item lines="full">
         <ion-label position="floating">Title</ion-label>
         <ion-input formControlName="title" type="text" required></ion-input>

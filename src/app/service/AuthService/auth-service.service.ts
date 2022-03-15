@@ -28,12 +28,12 @@ export interface SuccessfulLogin {
 })
 export class AuthServiceService {
 
-  constructor(private http: HttpClient) { this.SignUp }
+  constructor(private http: HttpClient) { this.signUp }
 
 
-  SignUp = (form: SignUpFormInterface) => { return this.http.post<Response>(`${environment.host}/register`, form, environment_config).toPromise() };
+  signUp = (form: SignUpFormInterface) => { return this.http.post<Response>(`${environment.host}/register`, form, environment_config).toPromise() };
 
-  LogIn = (form: LoginFormInterface) => { return this.http.post<SuccessfulLogin>(`${environment.host}/login`, form, environment_config).toPromise() };
+  logIn = (form: LoginFormInterface) => { return this.http.post<SuccessfulLogin>(`${environment.host}/login`, form, environment_config).toPromise() };
 
 }
 

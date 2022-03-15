@@ -21,7 +21,7 @@ export class FavoritesPage implements OnInit {
     if (await this.storage.get('logged') === true) this.userService.activeSessions = true;
 
     try {
-      this.favourites = await this.userService.GetFavourites(await this.storage.get('id'));
+      this.favourites = await this.userService.getFavourites(await this.storage.get('id'));
       this.loading = false;      
     }
     

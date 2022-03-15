@@ -48,15 +48,15 @@
 
       <div class="tags-btn">
         <div class="tag-btn1">
-          <ion-button *ngIf="!isInFavourites" (click)="PushInFavourites()" color="danger">
+          <ion-button *ngIf="!isInFavourites" (click)="pushInFavourites()" color="danger">
             <ion-icon name="heart-outline"></ion-icon>
           </ion-button>
-          <ion-button *ngIf="isInFavourites" (click)="RemoveFromFavourites()" color="unclick">
+          <ion-button *ngIf="isInFavourites" (click)="removeFromFavourites()" color="unclick">
             <ion-icon name="heart-dislike-outline"></ion-icon>
           </ion-button>
         </div>
         <div class="tag-btn2">
-          <ion-button (click)="PushInCart()" color="warning">
+          <ion-button (click)="pushInCart()" color="warning">
             <ion-icon  name="cart-outline"></ion-icon>
           </ion-button>
         </div>
@@ -179,7 +179,7 @@
       </ion-item>
       <div class="tag-btn3">
         <ion-button [disabled]='currentValutation.comment=="" || currentValutation.star==0 ' (click)="comment=false"
-          (click)=Valutate() (ionRefresh)=Valutate(); color="success">
+          (click)=valutate() (ionRefresh)=valutate(); color="success">
           <ion-icon name="send-outline"></ion-icon>
         </ion-button>
       </div>

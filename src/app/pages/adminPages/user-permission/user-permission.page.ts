@@ -30,7 +30,7 @@ export class UserPermissionPage {
 
   TakeUsers = async () => {
     try {
-      this.users = await this.userService.GetUsers();
+      this.users = await this.userService.getUsers();
       this.loading = false;
     }
 
@@ -43,7 +43,7 @@ export class UserPermissionPage {
 
   CheckIsAdmin = async () => {
     try {
-      return this.admin = ((await this.userService.GetMe(this.token)).isAdmin); //avoiding external entry
+      return this.admin = ((await this.userService.getMe(this.token)).isAdmin); //avoiding external entry
     }
 
     catch {
@@ -54,7 +54,7 @@ export class UserPermissionPage {
 
   ChangeAdminStatus = async (id: string) => {
     try {
-      await this.userService.ChangeAdminStatus(id,(await this.storage.get('token')));
+      await this.userService.changeAdminStatus(id,(await this.storage.get('token')));
       await this.ionViewWillEnter();
     }
     catch (err) {
